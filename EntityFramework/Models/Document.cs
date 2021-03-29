@@ -9,13 +9,13 @@ namespace online_education_site.EntityFramework.Models
     {
         public int DocumentId { get; set; }
         public string DocumentName { get; set; }
-        public int DocumentClass { get; set; }
-        public int DocumentLesson { get; set; }
-        public int DocumentTeacher { get; set; }
+        public int DocumentClassId { get; set; }
+        public int DocumentLessonId { get; set; }
+        public int DocumentTeacherId { get; set; }
         public DateTime DocumentDate { get; set; }
 
-        public virtual Cnumber DocumentClassNavigation { get; set; }
-        public virtual Lesson DocumentLessonNavigation { get; set; }
-        public virtual Teacher DocumentTeacherNavigation { get; set; }
+        public virtual Cnumber DocumentClass { get; set; }
+        public virtual Lesson DocumentLesson { get; set; }
+        public virtual Teacher DocumentTeacher { get; set; }
     }
 }

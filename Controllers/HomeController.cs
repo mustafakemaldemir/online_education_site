@@ -20,6 +20,40 @@ namespace online_education_site.Controllers
             _veritabani = context;
         }        
 
+        public IActionResult LOGIN()
+        {
+            return View();
+        }
+
+        public IActionResult REGISTER()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Student_LOGIN()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Student_REGISTER()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Teacher_LOGIN()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Teacher_REGISTER()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();

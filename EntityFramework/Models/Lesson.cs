@@ -15,11 +15,11 @@ namespace online_education_site.EntityFramework.Models
 
         public int LessonId { get; set; }
         public string LessonName { get; set; }
-        public int LessonClass { get; set; }
-        public int LessonTeacher { get; set; }
+        public int LessonClassId { get; set; }
+        public int LessonTeacherId { get; set; }
 
-        public virtual Cnumber LessonClassNavigation { get; set; }
-        public virtual Teacher LessonTeacherNavigation { get; set; }
+        public virtual Cnumber LessonClass { get; set; }
+        public virtual Teacher LessonTeacher { get; set; }
         public virtual ICollection<CourseStudent> CourseStudents { get; set; }
         public virtual ICollection<Document> Documents { get; set; }
     }

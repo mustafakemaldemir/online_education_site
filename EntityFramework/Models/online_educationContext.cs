@@ -17,6 +17,7 @@ namespace online_education_site.EntityFramework.Models
         {
         }
 
+        public virtual DbSet<Branch> Branches { get; set; }
         public virtual DbSet<Cnumber> Cnumbers { get; set; }
         public virtual DbSet<CourseStudent> CourseStudents { get; set; }
         public virtual DbSet<Document> Documents { get; set; }
@@ -37,6 +38,19 @@ namespace online_education_site.EntityFramework.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Turkish_CI_AS");
 
+            modelBuilder.Entity<Branch>(entity =>
+            {
+                entity.Property(e => e.BranchId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("branch_ID");
+
+                entity.Property(e => e.BranchName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("branch_Name");
+            });
+
             modelBuilder.Entity<Cnumber>(entity =>
             {
                 entity.HasKey(e => e.ClassId)
@@ -44,32 +58,32 @@ namespace online_education_site.EntityFramework.Models
 
                 entity.ToTable("CNumber");
 
-                entity.Property(e => e.ClassId).HasColumnName("class_Id");
+                entity.Property(e => e.ClassId).HasColumnName("class_ID");
 
                 entity.Property(e => e.ClassNumber).HasColumnName("class_Number");
             });
 
             modelBuilder.Entity<CourseStudent>(entity =>
             {
-                entity.HasKey(e => new { e.LessonId, e.StudentId });
+                entity.HasKey(e => new { e.CourseLessonId, e.CourseStudentId });
 
                 entity.ToTable("CourseStudent");
 
-                entity.Property(e => e.LessonId)
+                entity.Property(e => e.CourseLessonId)
                     .ValueGeneratedOnAdd()
-                    .HasColumnName("lesson_Id");
+                    .HasColumnName("course_lessonID");
 
-                entity.Property(e => e.StudentId).HasColumnName("student_Id");
+                entity.Property(e => e.CourseStudentId).HasColumnName("course_studentID");
 
-                entity.HasOne(d => d.Lesson)
+                entity.HasOne(d => d.CourseLesson)
                     .WithMany(p => p.CourseStudents)
-                    .HasForeignKey(d => d.LessonId)
+                    .HasForeignKey(d => d.CourseLessonId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CourseStudent_Lesson");
 
-                entity.HasOne(d => d.Student)
+                entity.HasOne(d => d.CourseStudentNavigation)
                     .WithMany(p => p.CourseStudents)
-                    .HasForeignKey(d => d.StudentId)
+                    .HasForeignKey(d => d.CourseStudentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CourseStudent_Student");
             });
@@ -78,15 +92,15 @@ namespace online_education_site.EntityFramework.Models
             {
                 entity.ToTable("Document");
 
-                entity.Property(e => e.DocumentId).HasColumnName("document_Id");
+                entity.Property(e => e.DocumentId).HasColumnName("document_ID");
 
-                entity.Property(e => e.DocumentClass).HasColumnName("document_Class");
+                entity.Property(e => e.DocumentClassId).HasColumnName("document_ClassID");
 
                 entity.Property(e => e.DocumentDate)
                     .HasColumnType("date")
                     .HasColumnName("document_Date");
 
-                entity.Property(e => e.DocumentLesson).HasColumnName("document_Lesson");
+                entity.Property(e => e.DocumentLessonId).HasColumnName("document_lessonID");
 
                 entity.Property(e => e.DocumentName)
                     .IsRequired()
@@ -94,23 +108,23 @@ namespace online_education_site.EntityFramework.Models
                     .IsUnicode(false)
                     .HasColumnName("document_Name");
 
-                entity.Property(e => e.DocumentTeacher).HasColumnName("document_Teacher");
+                entity.Property(e => e.DocumentTeacherId).HasColumnName("document_TeacherID");
 
-                entity.HasOne(d => d.DocumentClassNavigation)
+                entity.HasOne(d => d.DocumentClass)
                     .WithMany(p => p.Documents)
-                    .HasForeignKey(d => d.DocumentClass)
+                    .HasForeignKey(d => d.DocumentClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Document_CNumber");
 
-                entity.HasOne(d => d.DocumentLessonNavigation)
+                entity.HasOne(d => d.DocumentLesson)
                     .WithMany(p => p.Documents)
-                    .HasForeignKey(d => d.DocumentLesson)
+                    .HasForeignKey(d => d.DocumentLessonId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Document_Lesson");
 
-                entity.HasOne(d => d.DocumentTeacherNavigation)
+                entity.HasOne(d => d.DocumentTeacher)
                     .WithMany(p => p.Documents)
-                    .HasForeignKey(d => d.DocumentTeacher)
+                    .HasForeignKey(d => d.DocumentTeacherId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Document_Teacher");
             });
@@ -119,9 +133,9 @@ namespace online_education_site.EntityFramework.Models
             {
                 entity.ToTable("Lesson");
 
-                entity.Property(e => e.LessonId).HasColumnName("lesson_Id");
+                entity.Property(e => e.LessonId).HasColumnName("lesson_ID");
 
-                entity.Property(e => e.LessonClass).HasColumnName("lesson_Class");
+                entity.Property(e => e.LessonClassId).HasColumnName("lesson_ClassID");
 
                 entity.Property(e => e.LessonName)
                     .IsRequired()
@@ -129,17 +143,17 @@ namespace online_education_site.EntityFramework.Models
                     .IsUnicode(false)
                     .HasColumnName("lesson_Name");
 
-                entity.Property(e => e.LessonTeacher).HasColumnName("lesson_Teacher");
+                entity.Property(e => e.LessonTeacherId).HasColumnName("lesson_teacherID");
 
-                entity.HasOne(d => d.LessonClassNavigation)
+                entity.HasOne(d => d.LessonClass)
                     .WithMany(p => p.Lessons)
-                    .HasForeignKey(d => d.LessonClass)
+                    .HasForeignKey(d => d.LessonClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Lesson_CNumber");
 
-                entity.HasOne(d => d.LessonTeacherNavigation)
+                entity.HasOne(d => d.LessonTeacher)
                     .WithMany(p => p.Lessons)
-                    .HasForeignKey(d => d.LessonTeacher)
+                    .HasForeignKey(d => d.LessonTeacherId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Lesson_Teacher");
             });
@@ -148,9 +162,9 @@ namespace online_education_site.EntityFramework.Models
             {
                 entity.ToTable("Student");
 
-                entity.Property(e => e.StudentId).HasColumnName("student_Id");
+                entity.Property(e => e.StudentId).HasColumnName("student_ID");
 
-                entity.Property(e => e.StudentClass).HasColumnName("student_Class");
+                entity.Property(e => e.StudentClassId).HasColumnName("student_ClassID");
 
                 entity.Property(e => e.StudentName)
                     .IsRequired()
@@ -164,17 +178,17 @@ namespace online_education_site.EntityFramework.Models
                     .IsUnicode(false)
                     .HasColumnName("student_Surname");
 
-                entity.Property(e => e.UserId).HasColumnName("user_Id");
+                entity.Property(e => e.StudentUserId).HasColumnName("student_userID");
 
-                entity.HasOne(d => d.StudentClassNavigation)
+                entity.HasOne(d => d.StudentClass)
                     .WithMany(p => p.Students)
-                    .HasForeignKey(d => d.StudentClass)
+                    .HasForeignKey(d => d.StudentClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Student_CNumber");
 
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.StudentUser)
                     .WithMany(p => p.Students)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.StudentUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Student_User");
             });
@@ -183,7 +197,9 @@ namespace online_education_site.EntityFramework.Models
             {
                 entity.ToTable("Teacher");
 
-                entity.Property(e => e.TeacherId).HasColumnName("teacher_Id");
+                entity.Property(e => e.TeacherId).HasColumnName("teacher_ID");
+
+                entity.Property(e => e.TeacherBranchId).HasColumnName("teacher_branchID");
 
                 entity.Property(e => e.TeacherName)
                     .IsRequired()
@@ -197,11 +213,17 @@ namespace online_education_site.EntityFramework.Models
                     .IsUnicode(false)
                     .HasColumnName("teacher_surname");
 
-                entity.Property(e => e.UserId).HasColumnName("user_Id");
+                entity.Property(e => e.TeacherUserId).HasColumnName("teacher_userID");
 
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.TeacherBranch)
                     .WithMany(p => p.Teachers)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.TeacherBranchId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Teacher_Branches");
+
+                entity.HasOne(d => d.TeacherUser)
+                    .WithMany(p => p.Teachers)
+                    .HasForeignKey(d => d.TeacherUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Teacher_User");
             });
@@ -210,7 +232,7 @@ namespace online_education_site.EntityFramework.Models
             {
                 entity.ToTable("User");
 
-                entity.Property(e => e.UserId).HasColumnName("user_Id");
+                entity.Property(e => e.UserId).HasColumnName("user_ID");
 
                 entity.Property(e => e.UserEmail)
                     .IsRequired()

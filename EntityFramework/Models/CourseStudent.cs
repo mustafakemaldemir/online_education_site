@@ -7,10 +7,10 @@ namespace online_education_site.EntityFramework.Models
 {
     public partial class CourseStudent
     {
-        public int LessonId { get; set; }
-        public int StudentId { get; set; }
+        public int CourseLessonId { get; set; }
+        public int CourseStudentId { get; set; }
 
-        public virtual Lesson Lesson { get; set; }
-        public virtual Student Student { get; set; }
+        public virtual Lesson CourseLesson { get; set; }
+        public virtual Student CourseStudentNavigation { get; set; }
     }
 }
