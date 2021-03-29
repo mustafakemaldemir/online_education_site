@@ -1,16 +1,26 @@
-﻿<h1>Instructor Register Page</h1>
+﻿<h1>Student Register Page</h1>
 
-<form>
-
-    <input placeholder="Email" />
-    <br />
-    <input placeholder="Password" />
-    <br />
-    <input placeholder="Name" />
-    <br />
-    <input placeholder="Surname" />
-    <br />
-    <input placeholder="Branch" />
+@using (@Html.BeginForm("Student_REGISTER", "Home"))
+{
+    <label for="email">E-mail</label>
+    <input id="email" name="user_Email" />
     <br />
 
-</form>
+    <label for="sifre">Şifre</label>
+    <input id="sifre" name="user_Password" />
+    <br />
+
+    <label for="name">Name</label>
+    <input id="name" name="teacher_Name" />
+    <br />
+
+    <label for="surname">Surname</label>
+    <input id="surname" name="teacher_Surname" />
+    <br />
+
+    <label for="branch">Branch</label>
+    <input id="branch" name="teacher_Branch" />
+    <br />
+
+    <button class="btn btn-primary" type="submit">Register</button>
+}

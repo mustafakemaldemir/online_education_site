@@ -40,9 +40,7 @@ namespace online_education_site.EntityFramework.Models
 
             modelBuilder.Entity<Branch>(entity =>
             {
-                entity.Property(e => e.BranchId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("branch_ID");
+                entity.Property(e => e.BranchId).HasColumnName("branch_ID");
 
                 entity.Property(e => e.BranchName)
                     .IsRequired()
@@ -148,7 +146,6 @@ namespace online_education_site.EntityFramework.Models
                 entity.HasOne(d => d.LessonClass)
                     .WithMany(p => p.Lessons)
                     .HasForeignKey(d => d.LessonClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Lesson_CNumber");
 
                 entity.HasOne(d => d.LessonTeacher)

@@ -1,16 +1,26 @@
 ﻿<h1>Student Register Page</h1>
 
-<form>
-
-    <input placeholder="Email" />
-    <br />
-    <input placeholder="Password" />
-    <br />
-    <input placeholder="Name" />
-    <br />
-    <input placeholder="Surname" />
-    <br />
-    <input placeholder="ClassNumber" />
+@using (@Html.BeginForm("Student_REGISTER", "Home"))
+{
+    <label for="email">E-mail</label>
+    <input id="email" name="user_Email" />
     <br />
 
-</form>
+    <label for="sifre">Şifre</label>
+    <input id="sifre" name="user_Password" />
+    <br />
+
+    <label for="name">Name</label>
+    <input id="name" name="student_Name" />
+    <br />
+
+    <label for="surname">Surname</label>
+    <input id="surname" name="student_Surname" />
+    <br />
+
+    <label for="cnumber">Class Number</label>
+    <input id="cnumber" name="student_ClassID" />
+    <br />
+
+    <button class="btn btn-primary" type="submit">Register</button>
+}
