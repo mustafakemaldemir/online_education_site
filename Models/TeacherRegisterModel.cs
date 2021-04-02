@@ -11,6 +11,6 @@ namespace online_education_site.Models
         public string user_Password { get; set; }
         public string teacher_Name { get; set; }
         public string teacher_Surname { get; set; }
-        public string teacher_Branch { get; set; }
+        public int teacher_BranchID { get; set; }
     }
 }

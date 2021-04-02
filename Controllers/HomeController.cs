@@ -54,6 +54,111 @@ namespace online_education_site.Controllers
             return View();
         }
 
+        [HttpPost]
+        public string Student_LOGIN(LoginModel model)
+        {
+            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email &&
+                 user.UserPassword == model.user_Password);
+            if (user != null)
+            {
+                var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
+
+                if (student != null)
+                {
+                    // giriş başarılı olduktan sonra......
+                }
+
+                else 
+                {
+                                    
+                }
+
+                return "Veri tabanında bulunan ogrenci adi: " + student.StudentName ;
+            }
+
+            else { return "giris basarısız"; }
+            
+        }
+
+        [HttpPost]
+        public string Teacher_LOGIN(LoginModel model)
+        {
+            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email &&
+                 user.UserPassword == model.user_Password);
+            if (user != null)
+            {
+                var teacher = _veritabani.Teachers.FirstOrDefault(teacher => teacher.TeacherUserId == user.UserId);
+                if (teacher != null)
+                {
+                    // giriş başarılı olduktan sonra......
+                }
+
+                else
+                {
+
+                }
+
+                return "Veri tabanında bulunan ogretmen adi: " + teacher.TeacherName;
+            }
+
+            else { return "giris basarısız"; }
+
+        }
+
+        [HttpPost]
+
+        public string Student_REGISTER(StudentRegisterModel model)
+        {
+            var user = new User()
+            {
+                UserPassword = model.user_Password,
+                UserEmail = model.user_Email
+               
+            };
+
+            _veritabani.Users.Add(user);
+            _veritabani.SaveChanges();
+
+            var student = new Student() 
+            {
+                StudentName = model.student_Name,
+                StudentSurname = model.student_Surname,
+                StudentClassId = model.student_ClassID,
+                StudentUserId = user.UserId
+            };
+
+            _veritabani.Students.Add(student);
+            _veritabani.SaveChanges();
+
+            return "Kayıt başarılı";
+        }
+
+        public string Teacher_REGISTER(TeacherRegisterModel model)
+        {
+            var user = new User()
+            {
+                UserPassword = model.user_Password,
+                UserEmail = model.user_Email
+
+            };
+
+            _veritabani.Users.Add(user);
+            _veritabani.SaveChanges();
+
+            var teacher = new Teacher()
+            {
+                TeacherName = model.teacher_Name,
+                TeacherSurname = model.teacher_Surname,
+                TeacherBranchId = model.teacher_BranchID,
+                TeacherUserId = user.UserId
+            };
+
+            _veritabani.Teachers.Add(teacher);
+            _veritabani.SaveChanges();
+
+            return "Kayıt başarılı";
+        }
+
         public IActionResult Index()
         {
             return View();
