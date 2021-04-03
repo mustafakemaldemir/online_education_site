@@ -159,6 +159,31 @@ namespace online_education_site.Controllers
             return "Kayıt başarılı";
         }
 
+        public IActionResult RedirectIndex()// Index sayfasına yönlendirme.
+        {
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult RedirectLOGIN()// Login sayfasına yönlendirme.
+        {
+            return RedirectToAction("LOGIN");
+        }
+
+        public IActionResult RedirectREGISTER()// Register sayfasına yönlendirme.
+        {
+            return RedirectToAction("REGISTER");
+        }
+
+        public IActionResult RedirectUserPage_Student()// UserPage_Student sayfasına yönlendirme.
+        {
+            return RedirectToAction("UserPage_Student");
+        }
+
+        public IActionResult RedirectUserPage_Teacher()// UserPage_Teacher sayfasına yönlendirme.
+        {
+            return RedirectToAction("UserPage_Student");
+        }
+
         public IActionResult Index()
         {
             return View();

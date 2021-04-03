@@ -1,6 +1,6 @@
-﻿<h1><b>Instructor Login Page</b></h1>
+﻿<h1><b>Student Delete Page</b></h1>
 
-@using (@Html.BeginForm("Teacher_LOGIN", "Home"))
+@using (@Html.BeginForm("Student_Delete", "AfterLogin_Student"))
 {
     <label for="email">E-mail</label>
     <input id="email" name="user_Email" />
@@ -10,6 +10,5 @@
     <input id="sifre" name="user_Password" />
     <br />
 
-    <button class="btn btn-primary" type="submit">Login</button>
+    <button class="btn btn-primary" type="submit">Delete</button>
 }
-
