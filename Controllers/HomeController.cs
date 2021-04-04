@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using online_education_site.EntityFramework.Models;
 using online_education_site.Models;
@@ -6,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace online_education_site.Controllers
@@ -55,7 +58,7 @@ namespace online_education_site.Controllers
         }
 
         [HttpPost]
-        public string Student_LOGIN(LoginModel model)
+        public IActionResult Student_LOGIN(LoginModel model) //If-Else blokları ile dolulukları kontrol et!
         {
             var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email &&
                  user.UserPassword == model.user_Password);
@@ -65,23 +68,20 @@ namespace online_education_site.Controllers
 
                 if (student != null)
                 {
-                    // giriş başarılı olduktan sonra......
+                    AuthenticateUser(user.UserEmail);
+
+                    return RedirectUserPage_Student();
                 }
 
-                else 
-                {
-                                    
-                }
-
-                return "Veri tabanında bulunan ogrenci adi: " + student.StudentName ;
+                return View();                
             }
 
-            else { return "giris basarısız"; }
+            else { return View(); }
             
         }
 
         [HttpPost]
-        public string Teacher_LOGIN(LoginModel model)
+        public IActionResult Teacher_LOGIN(LoginModel model) //If-Else blokları ile dolulukları kontrol et!
         {
             var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email &&
                  user.UserPassword == model.user_Password);
@@ -90,30 +90,25 @@ namespace online_education_site.Controllers
                 var teacher = _veritabani.Teachers.FirstOrDefault(teacher => teacher.TeacherUserId == user.UserId);
                 if (teacher != null)
                 {
-                    // giriş başarılı olduktan sonra......
+                    AuthenticateUser(user.UserEmail);
+
+                    return RedirectUserPage_Teacher();
                 }
 
-                else
-                {
-
-                }
-
-                return "Veri tabanında bulunan ogretmen adi: " + teacher.TeacherName;
+                return View();
             }
 
-            else { return "giris basarısız"; }
+            else { return View(); }
 
         }
 
         [HttpPost]
-
-        public string Student_REGISTER(StudentRegisterModel model)
+        public IActionResult Student_REGISTER(StudentRegisterModel model) //If-Else blokları ile dolulukları kontrol et!
         {
             var user = new User()
             {
                 UserPassword = model.user_Password,
-                UserEmail = model.user_Email
-               
+                UserEmail = model.user_Email               
             };
 
             _veritabani.Users.Add(user);
@@ -130,16 +125,17 @@ namespace online_education_site.Controllers
             _veritabani.Students.Add(student);
             _veritabani.SaveChanges();
 
-            return "Kayıt başarılı";
+            AuthenticateUser(user.UserEmail);
+            return RedirectUserPage_Student();
         }
 
-        public string Teacher_REGISTER(TeacherRegisterModel model)
+        [HttpPost]
+        public IActionResult Teacher_REGISTER(TeacherRegisterModel model) //If-Else blokları ile dolulukları kontrol et!
         {
             var user = new User()
             {
                 UserPassword = model.user_Password,
                 UserEmail = model.user_Email
-
             };
 
             _veritabani.Users.Add(user);
@@ -156,32 +152,50 @@ namespace online_education_site.Controllers
             _veritabani.Teachers.Add(teacher);
             _veritabani.SaveChanges();
 
-            return "Kayıt başarılı";
+            AuthenticateUser(user.UserEmail);
+            return RedirectUserPage_Teacher();
         }
 
         public IActionResult RedirectIndex()// Index sayfasına yönlendirme.
         {
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult RedirectLOGIN()// Login sayfasına yönlendirme.
+        public IActionResult RedirectLOGIN()// Login seçim ekranına sayfasına yönlendirme.
         {
-            return RedirectToAction("LOGIN");
+            return RedirectToAction(nameof(LOGIN));
         }
 
-        public IActionResult RedirectREGISTER()// Register sayfasına yönlendirme.
+        public IActionResult RedirectREGISTER()// Register seçim ekranına sayfasına yönlendirme.
         {
-            return RedirectToAction("REGISTER");
+            return RedirectToAction(nameof(REGISTER));
         }
 
         public IActionResult RedirectUserPage_Student()// UserPage_Student sayfasına yönlendirme.
         {
-            return RedirectToAction("UserPage_Student");
+            return RedirectToAction("UserPage_Student" , "AfterLogin_Student");
         }
 
         public IActionResult RedirectUserPage_Teacher()// UserPage_Teacher sayfasına yönlendirme.
         {
-            return RedirectToAction("UserPage_Student");
+            return RedirectToAction("UserPage_Teacher", "AfterLogin_Teacher");
+        }
+
+        private async void AuthenticateUser(string userName)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, userName) //Guid.NewGuid().ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties();
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
         }
 
         public IActionResult Index()
