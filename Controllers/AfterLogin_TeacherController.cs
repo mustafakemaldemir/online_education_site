@@ -64,7 +64,7 @@ namespace online_education_site.Controllers
             return View();
         }
 
-        [HttpDelete]//?
+        [HttpDelete]
         public IActionResult Teacher_Delete(TeacherDeleteModel model) //If-Else blokları ile dolulukları kontrol et!
         {
             var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email &&
