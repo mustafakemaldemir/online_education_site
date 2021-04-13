@@ -11,7 +11,11 @@
     @if (isLoggedIn)
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Lessons" asp-action="Lessons_Student"><b>Lessons</b></a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Lessons" asp-action="Lessons_Student"><b>Student Lessons</b></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="AfterLogin_Student" asp-action="UserPage_Student"><b>User Page</b></a>
         </li>
     }
     else
@@ -19,14 +23,13 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><b>Home</b></a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="LOGIN"><b>Login</b></a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="REGISTER"><b>Register</b></a>
         </li>
     }
-
-
-
 </ul>
