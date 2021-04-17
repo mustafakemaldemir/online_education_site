@@ -1,0 +1,11 @@
+﻿@model List<online_education_site.EntityFramework.Models.Lesson>
+<ul>
+    @foreach (var lesson in Model)
+    {
+        <li>
+            <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
+                @lesson.LessonName
+            </a>
+        </li>
+    }
+</ul>

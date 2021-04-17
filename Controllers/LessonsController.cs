@@ -48,6 +48,37 @@ namespace online_education_site.Controllers
             return View(courses);
         }
 
+        /*public IActionResult Lessons_Teacher()
+        {
+            var userName = "";
+            var claim = User.Claims.FirstOrDefault();
+
+            if (claim == null)
+            {
+
+                return Content("Kullanıcı Bulunamadı");
+            }
+            userName = claim.Value;
+            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == userName);
+
+            if (user == null)
+            {
+                return Content("Kullanıcı bulunamadı");
+            }
+
+            var teacher = _veritabani.Teachers.FirstOrDefault(teacher => teacher.TeacherUserId == user.UserId);
+
+            if (teacher == null)
+            {
+                return Content("Kullanıcı bulunamadı");
+            }
+
+            var courses = _veritabani.Lessons.Where(lessonteacher => lessonteacher.LessonTeacherId == teacher.TeacherId)
+                .Select(lessonteacher => lessonteacher.LessonName).ToList();
+
+            return View(courses);
+        }*/
+
         public IActionResult Lesson(int id) 
         {
             var lesson = _veritabani.Lessons.FirstOrDefault(lesson => lesson.LessonId == id);

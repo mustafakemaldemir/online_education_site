@@ -1,6 +1,8 @@
-﻿<h1><b>Instructor Register Page</b></h1>
+﻿@model List<online_education_site.EntityFramework.Models.Branch>
 
-@using (@Html.BeginForm("Student_REGISTER", "Home"))
+<h1><b>Instructor Register Page</b></h1>
+
+@using (@Html.BeginForm("Teacher_REGISTER", "Home"))
 {
     <label for="email">E-mail</label>
     <input id="email" name="user_Email" />
@@ -18,8 +20,18 @@
     <input id="surname" name="teacher_Surname" />
     <br />
 
-    <label for="branch">Branch</label>
-    <input id="branch" name="teacher_BranchID" />
+    <label for="branch">Branch</label>    
+    <select class="form-select" id="branch" name="teacher_BranchID">
+        @foreach (var branch in Model)
+        {
+            <option value="@branch.BranchId">
+
+                @branch.BranchName
+
+            </option>
+        }
+
+    </select>
     <br />
 
     <button class="btn btn-primary" type="submit">Register</button>

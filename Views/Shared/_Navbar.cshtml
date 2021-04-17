@@ -1,24 +1,52 @@
 ﻿@{
 
     var isLoggedIn = false;
+    var userType = UserTypes.Student;
     var claim = User.Claims.FirstOrDefault();
+
     if (claim != null)
+    {
+        var claimModel = JsonSerializer.Deserialize<ClaimModel>(claim.Value);
         isLoggedIn = true;
+        userType = claimModel.UserType;
+    }
+
 }
 
 <ul class="navbar-nav flex-grow-1">
 
     @if (isLoggedIn)
+
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Lessons" asp-action="Lessons_Student"><b>Student Lessons</b></a>
-        </li>
+        if (userType == UserTypes.Student)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Lessons" asp-action="Lessons_Student"><b>Student Lessons</b></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="AfterLogin_Student" asp-action="UserPage_Student"><b>Student User Page</b></a>
+            </li>
+        }
+
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Lessons" asp-action="Lessons_Student"><b>Teacher Lesson</b></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="AfterLogin_Student" asp-action="UserPage_Student"><b>Teacher User Page</b></a>
+            </li>
+        }
 
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="AfterLogin_Student" asp-action="UserPage_Student"><b>User Page</b></a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout"><b>Logout</b></a>
         </li>
     }
+
     else
+
     {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><b>Home</b></a>
@@ -32,4 +60,5 @@
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="REGISTER"><b>Register</b></a>
         </li>
     }
+
 </ul>

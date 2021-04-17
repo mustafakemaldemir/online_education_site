@@ -10,6 +10,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace online_education_site.Controllers
 {
@@ -54,7 +56,9 @@ namespace online_education_site.Controllers
         [HttpGet]
         public IActionResult Teacher_REGISTER()
         {
-            return View();
+            var branches = _veritabani.Branches.ToList();
+
+            return View(branches);
         }
 
         [HttpPost]
@@ -68,7 +72,7 @@ namespace online_education_site.Controllers
 
                 if (student != null)
                 {
-                    AuthenticateUser(user.UserEmail);
+                    AuthenticateUser(user.UserEmail,UserTypes.Student);
 
                     return RedirectUserPage_Student();
                 }
@@ -90,7 +94,7 @@ namespace online_education_site.Controllers
                 var teacher = _veritabani.Teachers.FirstOrDefault(teacher => teacher.TeacherUserId == user.UserId);
                 if (teacher != null)
                 {
-                    AuthenticateUser(user.UserEmail);
+                    AuthenticateUser(user.UserEmail,UserTypes.Teacher);
 
                     return RedirectUserPage_Teacher();
                 }
@@ -125,7 +129,7 @@ namespace online_education_site.Controllers
             _veritabani.Students.Add(student);
             _veritabani.SaveChanges();
 
-            AuthenticateUser(user.UserEmail);
+            AuthenticateUser(user.UserEmail,UserTypes.Student);
             return RedirectUserPage_Student();
         }
 
@@ -152,7 +156,7 @@ namespace online_education_site.Controllers
             _veritabani.Teachers.Add(teacher);
             _veritabani.SaveChanges();
 
-            AuthenticateUser(user.UserEmail);
+            AuthenticateUser(user.UserEmail,UserTypes.Teacher);
             return RedirectUserPage_Teacher();
         }
 
@@ -181,11 +185,15 @@ namespace online_education_site.Controllers
             return RedirectToAction("UserPage_Teacher", "AfterLogin_Teacher");
         }
 
-        private async void AuthenticateUser(string userName)
+        private async void AuthenticateUser(string userName,UserTypes userType)
         {
+            var claim = new ClaimModel { UserName = userName, UserType = userType };
+
+            string jsonString = JsonSerializer.Serialize(claim);
+
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, userName) //Guid.NewGuid().ToString())
+                new Claim(ClaimTypes.Name, jsonString) //Guid.NewGuid().ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(
@@ -212,6 +220,14 @@ namespace online_education_site.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index");
         }
     }
 }
