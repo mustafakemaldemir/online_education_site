@@ -21,22 +21,22 @@
         if (userType == UserTypes.Student)
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Lessons" asp-action="Lessons_Student"><b>Student Lessons</b></a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Lessons" asp-action="Lessons_Student"><b>Student's Lessons</b></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="AfterLogin_Student" asp-action="UserPage_Student"><b>Student User Page</b></a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="AfterLogin_Student" asp-action="UserPage_Student"><b>Student's Account Settings</b></a>
             </li>
         }
 
         else
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Lessons" asp-action="Lessons_Student"><b>Teacher Lesson</b></a>
+                <a class="nav-link text-dark" asp-area="  " asp-controller="Lessons" asp-action="Lessons_Teacher"><b>Instructor's Lesson</b></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="AfterLogin_Student" asp-action="UserPage_Student"><b>Teacher User Page</b></a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="AfterLogin_Teacher" asp-action="UserPage_Teacher"><b>Instructor's Account Settings</b></a>
             </li>
         }
 

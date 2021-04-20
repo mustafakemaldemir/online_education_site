@@ -25,21 +25,21 @@ namespace online_education_site.Controllers
             if (claim == null)
             {
 
-                return Content("Kullanıcı Bulunamadı");
+                return Content("Kullanıcı bulunamadı!");
             }
             userName = claim.Value;
             var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == userName);
 
             if (user == null) 
             {
-                return Content("Kullanıcı bulunamadı");
+                return Content("Mail adresine ait hesap bulunamadı!");
             }
 
             var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
 
             if (student == null) 
             {
-                return Content("Kullanıcı bulunamadı");
+                return Content("Öğrenci bulunamadı!");
             }
 
             var courses = _veritabani.CourseStudents.Where(cs => cs.CourseStudentId == student.StudentId)
@@ -48,7 +48,7 @@ namespace online_education_site.Controllers
             return View(courses);
         }
 
-        /*public IActionResult Lessons_Teacher()
+        public IActionResult Lessons_Teacher()
         {
             var userName = "";
             var claim = User.Claims.FirstOrDefault();
@@ -63,21 +63,21 @@ namespace online_education_site.Controllers
 
             if (user == null)
             {
-                return Content("Kullanıcı bulunamadı");
+                return Content("Mail adresine ait hesap bulunamadı!");
             }
 
             var teacher = _veritabani.Teachers.FirstOrDefault(teacher => teacher.TeacherUserId == user.UserId);
 
             if (teacher == null)
             {
-                return Content("Kullanıcı bulunamadı");
+                return Content("Öğretmen bulunamadı");
             }
 
-            var courses = _veritabani.Lessons.Where(lessonteacher => lessonteacher.LessonTeacherId == teacher.TeacherId)
+            var lessons = _veritabani.Lessons.Where(lessonteacher => lessonteacher.LessonTeacherId == teacher.TeacherId)
                 .Select(lessonteacher => lessonteacher.LessonName).ToList();
 
-            return View(courses);
-        }*/
+            return View(lessons);
+        }
 
         public IActionResult Lesson(int id) 
         {
