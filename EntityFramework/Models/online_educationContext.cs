@@ -67,9 +67,7 @@ namespace online_education_site.EntityFramework.Models
 
                 entity.ToTable("CourseStudent");
 
-                entity.Property(e => e.CourseLessonId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("course_lessonID");
+                entity.Property(e => e.CourseLessonId).HasColumnName("course_lessonID");
 
                 entity.Property(e => e.CourseStudentId).HasColumnName("course_studentID");
 

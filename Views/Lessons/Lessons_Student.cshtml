@@ -2,10 +2,10 @@
 <ul>
     @foreach (var lesson in Model) 
     {
-    <li>        
-        <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})" >
-            @lesson.LessonName
-        </a>
-    </li>
+        <li>        
+            <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
+                @lesson.LessonName
+            </a>
+        </li>
     }
 </ul>

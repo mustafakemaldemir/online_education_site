@@ -16,14 +16,14 @@ using System.Text.Json.Serialization;
 namespace online_education_site.Controllers
 {
     public class HomeController : Controller
-    {       
+    {
 
         private readonly online_educationContext _veritabani;
 
         public HomeController(online_educationContext context)
         {
             _veritabani = context;
-        }        
+        }
 
         public IActionResult LOGIN()
         {
@@ -72,16 +72,18 @@ namespace online_education_site.Controllers
 
                 if (student != null)
                 {
-                    AuthenticateUser(user.UserEmail,UserTypes.Student);
+                    AuthenticateUser(user.UserEmail, UserTypes.Student);
 
-                    return RedirectUserPage_Student();
+                    return RedirectLessons_Student();
                 }
-
-                return View();                
+                ModelState.AddModelError("NotFound", "Student not found!");
+                return View();
             }
-
-            else { return View(); }
-            
+            else
+            {
+                ModelState.AddModelError("NotFound", "User not found!");
+                return View();
+            }
         }
 
         [HttpPost]
@@ -94,16 +96,19 @@ namespace online_education_site.Controllers
                 var teacher = _veritabani.Teachers.FirstOrDefault(teacher => teacher.TeacherUserId == user.UserId);
                 if (teacher != null)
                 {
-                    AuthenticateUser(user.UserEmail,UserTypes.Teacher);
+                    AuthenticateUser(user.UserEmail, UserTypes.Teacher);
 
-                    return RedirectUserPage_Teacher();
+                    return RedirectLessons_Teacher();
                 }
-
+                // TODO : teacher not found
                 return View();
             }
 
-            else { return View(); }
-
+            else
+            {
+                // user not found
+                return View();
+            }
         }
 
         [HttpPost]
@@ -112,13 +117,13 @@ namespace online_education_site.Controllers
             var user = new User()
             {
                 UserPassword = model.user_Password,
-                UserEmail = model.user_Email               
+                UserEmail = model.user_Email
             };
 
             _veritabani.Users.Add(user);
             _veritabani.SaveChanges();
 
-            var student = new Student() 
+            var student = new Student()
             {
                 StudentName = model.student_Name,
                 StudentSurname = model.student_Surname,
@@ -129,8 +134,9 @@ namespace online_education_site.Controllers
             _veritabani.Students.Add(student);
             _veritabani.SaveChanges();
 
-            AuthenticateUser(user.UserEmail,UserTypes.Student);
-            return RedirectUserPage_Student();
+            AuthenticateUser(user.UserEmail, UserTypes.Student);
+
+            return RedirectIndex();
         }
 
         [HttpPost]
@@ -156,8 +162,17 @@ namespace online_education_site.Controllers
             _veritabani.Teachers.Add(teacher);
             _veritabani.SaveChanges();
 
-            AuthenticateUser(user.UserEmail,UserTypes.Teacher);
-            return RedirectUserPage_Teacher();
+            AuthenticateUser(user.UserEmail, UserTypes.Teacher);
+
+            return RedirectIndex();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult RedirectIndex()// Index sayfasına yönlendirme.
@@ -177,7 +192,7 @@ namespace online_education_site.Controllers
 
         public IActionResult RedirectUserPage_Student()// UserPage_Student sayfasına yönlendirme.
         {
-            return RedirectToAction("UserPage_Student" , "AfterLogin_Student");
+            return RedirectToAction("UserPage_Student", "AfterLogin_Student");
         }
 
         public IActionResult RedirectUserPage_Teacher()// UserPage_Teacher sayfasına yönlendirme.
@@ -185,7 +200,26 @@ namespace online_education_site.Controllers
             return RedirectToAction("UserPage_Teacher", "AfterLogin_Teacher");
         }
 
-        private async void AuthenticateUser(string userName,UserTypes userType)
+        public IActionResult RedirectLessons_Student()// Lessons_Student sayfasına yönlendirme.
+        {
+            return RedirectToAction("Lessons_Student", "Lessons");
+        }
+        public IActionResult RedirectLessons_Teacher()// Lessons_Teacher sayfasına yönlendirme.
+        {
+            return RedirectToAction("Lessons_Teacher", "Lessons");
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        private async void AuthenticateUser(string userName, UserTypes userType)
         {
             var claim = new ClaimModel { UserName = userName, UserType = userType };
 
@@ -206,28 +240,11 @@ namespace online_education_site.Controllers
                 authProperties);
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme);
-
-            return RedirectToAction("Index");
-        }
     }
 }

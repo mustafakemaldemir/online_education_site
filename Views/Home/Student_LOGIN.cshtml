@@ -1,13 +1,23 @@
-﻿<h1><b>Student Login Page</b></h1>
+﻿@model online_education_site.Models.LoginModel
 
-@using (@Html.BeginForm("Student_LOGIN", "Home"))
+<h1><b>Student Login Page</b></h1>
+
+@using (@Html.BeginForm("Student_LOGIN", "Home")) 
 {
-    <label for="email">E-mail</label>
-    <input id="email" name="user_Email" />
+    @*<label for="email">E-mail</label>
+    <input id="email" name="user_Email" />*@
+
+    @Html.ValidationSummary(false, "", new { style = "color: red" })
+
+    @Html.LabelFor(m => m.user_Email, new { @class = "form-control-label", @for = "input-email" })
+    @Html.TextBoxFor(m => m.user_Email, new { @class = "form-control", id = "input-email" })
     <br />
 
-    <label for="sifre">Şifre</label>
-    <input id="sifre" name="user_Password" />
+    @*<label for="sifre">Şifre</label>
+    <input id="sifre" name="user_Password" />*@
+
+    @Html.LabelFor(m => m.user_Password, new { @class = "form-control-label", @for = "input-password" })
+    @Html.PasswordFor(m => m.user_Password, new { @class = "form-control", id = "input-password" })
     <br />
 
     <button class="btn btn-primary" type="submit">Login</button>

@@ -1,0 +1,16 @@
+﻿@model List<online_education_site.EntityFramework.Models.Lesson>
+
+
+@using (@Html.BeginForm("Add_Student_Lesson", "Lessons"))
+{
+    <select name="id">
+        @foreach (var lesson in Model)
+        {
+            <option value="@lesson.LessonId">
+                @lesson.LessonName
+            </option>
+        }
+    </select>
+
+    <button class="btn btn-primary">Add Course</button>
+}

@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using online_education_site.EntityFramework.Models;
+using online_education_site.Helpers;
+using online_education_site.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace online_education_site.Controllers
@@ -19,25 +22,12 @@ namespace online_education_site.Controllers
         }
         public IActionResult Lessons_Student()
         {
-            var userName = "";
             var claim = User.Claims.FirstOrDefault();
-
-            if (claim == null)
-            {
-
-                return Content("Kullanıcı bulunamadı!");
-            }
-            userName = claim.Value;
-            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == userName);
-
-            if (user == null) 
-            {
-                return Content("Mail adresine ait hesap bulunamadı!");
-            }
-
+            var user = ClaimHelper.GetUser(claim);
+           
             var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
 
-            if (student == null) 
+            if (student == null)
             {
                 return Content("Öğrenci bulunamadı!");
             }
@@ -50,22 +40,9 @@ namespace online_education_site.Controllers
 
         public IActionResult Lessons_Teacher()
         {
-            var userName = "";
             var claim = User.Claims.FirstOrDefault();
-
-            if (claim == null)
-            {
-
-                return Content("Kullanıcı Bulunamadı");
-            }
-            userName = claim.Value;
-            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == userName);
-
-            if (user == null)
-            {
-                return Content("Mail adresine ait hesap bulunamadı!");
-            }
-
+            var user = ClaimHelper.GetUser(claim);
+            
             var teacher = _veritabani.Teachers.FirstOrDefault(teacher => teacher.TeacherUserId == user.UserId);
 
             if (teacher == null)
@@ -79,7 +56,48 @@ namespace online_education_site.Controllers
             return View(lessons);
         }
 
-        public IActionResult Lesson(int id) 
+        public IActionResult All_Classes()
+        {
+            var classes = _veritabani.Cnumbers.Select(classnumber => classnumber.ClassNumber).ToList();
+            return View(classes);
+        }
+
+        [HttpGet]
+        public IActionResult Add_Student_Lesson()
+        {
+            var claim = User.Claims.FirstOrDefault();
+            var user = ClaimHelper.GetUser(claim);
+
+            var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
+            var studentLessonIds = _veritabani.CourseStudents
+                .Where(cs => cs.CourseStudentId == student.StudentId)
+                .Select(cs => cs.CourseLessonId)
+                .ToList();
+
+            var lessons = _veritabani.Lessons.Where(l => l.LessonClassId == student.StudentClassId && !studentLessonIds.Contains((int)l.LessonId)).ToList();
+
+            return View(lessons);
+        }
+
+        [HttpPost]
+        public IActionResult Add_Student_Lesson(int id)
+        {
+            var claim = User.Claims.FirstOrDefault();
+            var user = ClaimHelper.GetUser(claim);
+
+            var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
+
+            _veritabani.CourseStudents.Add(new CourseStudent
+            {
+                CourseLessonId = id,
+                CourseStudentId = student.StudentId
+            });
+
+            _veritabani.SaveChanges();
+            return RedirectToAction("Lessons_Student");
+        }
+
+        public IActionResult Lesson(int id)
         {
             var lesson = _veritabani.Lessons.FirstOrDefault(lesson => lesson.LessonId == id);
 
