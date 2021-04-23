@@ -61,13 +61,14 @@ namespace online_education_site.Controllers
                     _veritabani.Teachers.Update(teacher);
                     _veritabani.SaveChanges();
 
-                    return RedirectUserPage_Teacher();
+                    return Redirect_After_Logın_Teacher_Index();
                 }
+                else
+                    return Redirect_After_Logın_Teacher_Index();
 
-                return View();
             }
-
-            return View();
+            else
+                return Redirect_After_Logın_Teacher_Index();            
         }
 
         [HttpDelete]
@@ -113,6 +114,11 @@ namespace online_education_site.Controllers
         public IActionResult RedirectIndex()// Index sayfasına yönlendirme.
         {
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Redirect_After_Logın_Teacher_Index()// After_Logın_Teacher_Index sayfasına yönlendirme.
+        {
+            return RedirectToAction(nameof(After_Login_Teacher_Index));
         }
 
     }

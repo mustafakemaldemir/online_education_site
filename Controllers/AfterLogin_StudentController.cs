@@ -51,11 +51,11 @@ namespace online_education_site.Controllers
             var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email &&
                  user.UserPassword == model.user_Password);
 
-            if (user != null) 
+            if (user != null)
             {
                 var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
 
-                if (student != null) 
+                if (student != null)
                 {
                     user.UserEmail = model.new_user_Email;
                     user.UserPassword = model.new_user_Password;
@@ -64,13 +64,14 @@ namespace online_education_site.Controllers
                     _veritabani.Students.Update(student);
                     _veritabani.SaveChanges();
 
-                    return RedirectUserPage_Student();
+                    return Redirect_After_Logın_Student_Index();
                 }
 
-                return View();
+                else
+                    return Redirect_After_Logın_Student_Index();               
             }
-
-            return View();
+            else
+                return Redirect_After_Logın_Student_Index();           
         }
 
         [HttpDelete]
@@ -119,5 +120,9 @@ namespace online_education_site.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        public IActionResult Redirect_After_Logın_Student_Index()// After_Logın_Student_Index sayfasına yönlendirme.
+        {
+            return RedirectToAction(nameof(After_Login_Student_Index));
+        }
     }
 }
