@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace online_education_site.Controllers
 {
@@ -23,6 +24,11 @@ namespace online_education_site.Controllers
         }
 
         public IActionResult UserPage_Student()
+        {
+            return View();
+        }
+
+        public IActionResult After_Login_Student_Index()
         {
             return View();
         }
@@ -85,7 +91,7 @@ namespace online_education_site.Controllers
                     {
                         _veritabani.SaveChanges();
 
-                        return RedirectUserPage_Student();
+                        return RedirectIndex();
                     }
                     catch (Exception e)
                     {
@@ -107,6 +113,11 @@ namespace online_education_site.Controllers
         {
             return RedirectToAction(nameof(UserPage_Student));
         }
-        
+
+        public IActionResult RedirectIndex()// Index sayfasına yönlendirme.
+        {
+            return RedirectToAction("Index","Home");
+        }
+
     }
 }

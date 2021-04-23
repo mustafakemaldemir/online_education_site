@@ -1,25 +1,49 @@
-﻿<h1><b>Instructor Account Update Page</b></h1>
+﻿@model online_education_site.Models.TeacherUpdateModel
+
+<h1><b>Instructor Account Update Page</b></h1>
 
 @using (@Html.BeginForm("Teacher_Update", "AfterLogin_Teacher"))
 {
-    <label for="email">Old E-mail</label>
-    <input id="email" name="user_Email" />
+    @*
+        <label for="email">Old E-mail</label>
+        <input id="email" name="user_Email" />
+    *@
+
+    @Html.LabelFor(m => m.user_Email, new { @class = "form-control-label", @for = "input-email" })
+    @Html.TextBoxFor(m => m.user_Email, new { @class = "form-control", id = "input-email" })
     <br />
 
-    <label for="email">New E-mail</label>
-    <input id="email" name="new_user_Email" />
-    <br />
+    @*
+        <label for="email">New E-mail</label>
+        <input id="email" name="new_user_Email" />
+    *@
 
-    <label for="sifre">Old Şifre</label>
-    <input id="sifre" name="user_Password" />
+    @Html.LabelFor(m => m.new_user_Email, new { @class = "form-control-label", @for = "input-email" })
+    @Html.TextBoxFor(m => m.new_user_Email, new { @class = "form-control", id = "input-email" })
     <br />
+    @*
+        <label for="sifre">Old Şifre</label>
+        <input id="sifre" name="user_Password" />
+    *@
 
-    <label for="sifre">New Şifre</label>
-    <input id="sifre" name="new_user_Password" />
+    @Html.LabelFor(m => m.user_Password, new { @class = "form-control-label", @for = "input-email" })
+    @Html.TextBoxFor(m => m.user_Password, new { @class = "form-control", id = "input-email" })
     <br />
+    @*
+        <label for="sifre">New Şifre</label>
+        <input id="sifre" name="new_user_Password" />
+    *@
 
-    <label for="branch">New Branch</label>
-    <input id="branch" name="new_user_BranchID" />
+    @Html.LabelFor(m => m.new_user_Password, new { @class = "form-control-label", @for = "input-email" })
+    @Html.TextBoxFor(m => m.new_user_Password, new { @class = "form-control", id = "input-email" })
+    <br />
+    @*
+        <label for="branch">New Branch</label>
+        <input id="branch" name="new_user_BranchID" />
+    *@
+
+    @Html.LabelFor(m => m.new_user_BranchID, new { @class = "form-control-label", @for = "input-email" })
+    @Html.TextBoxFor(m => m.new_user_BranchID, new { @class = "form-control", id = "input-email" })
     <br />
 
     <button class="btn btn-primary" type="submit">Update</button>

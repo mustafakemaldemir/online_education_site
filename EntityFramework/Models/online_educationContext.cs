@@ -144,12 +144,12 @@ namespace online_education_site.EntityFramework.Models
                 entity.HasOne(d => d.LessonClass)
                     .WithMany(p => p.Lessons)
                     .HasForeignKey(d => d.LessonClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Lesson_CNumber");
 
                 entity.HasOne(d => d.LessonTeacher)
                     .WithMany(p => p.Lessons)
                     .HasForeignKey(d => d.LessonTeacherId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Lesson_Teacher");
             });
 

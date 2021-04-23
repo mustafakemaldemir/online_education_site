@@ -14,7 +14,11 @@ namespace online_education_site.Helpers
     {
         public static User GetUser(System.Security.Claims.Claim claim)
         {
-            if (claim == null) throw new Exception("Claim bulunamadı!");
+            if (claim == null) 
+            {
+                throw new Exception("Claim bulunamadı!");
+            }
+            
             string userName = "";
             var claimModel = JsonSerializer.Deserialize<ClaimModel>(claim.Value);
             
@@ -23,7 +27,11 @@ namespace online_education_site.Helpers
             var _veritabani = new online_educationContext();
             var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == userName);
 
-            if (user == null) throw new Exception("Kullanıcı bulunamadı!");
+            if (user == null) 
+            {
+                throw new Exception("Kullanıcı bulunamadı!");
+            }
+
             return user;
         }
     }

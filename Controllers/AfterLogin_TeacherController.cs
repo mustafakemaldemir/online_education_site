@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace online_education_site.Controllers
 {
@@ -20,6 +21,11 @@ namespace online_education_site.Controllers
         }
 
         public IActionResult UserPage_Teacher()
+        {
+            return View();
+        }
+
+        public IActionResult After_Login_Teacher_Index()
         {
             return View();
         }
@@ -82,7 +88,7 @@ namespace online_education_site.Controllers
                     {
                         _veritabani.SaveChanges();
 
-                        return RedirectUserPage_Teacher();
+                        return RedirectIndex();
                     }
                     catch (Exception e)
                     {
@@ -98,12 +104,16 @@ namespace online_education_site.Controllers
 
             else
                 return View();
-        }
+        }       
 
         public IActionResult RedirectUserPage_Teacher()// UserPage_Teacher sayfasına yönlendirme.
         {
             return RedirectToAction(nameof(UserPage_Teacher));
         }
-        
+        public IActionResult RedirectIndex()// Index sayfasına yönlendirme.
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }

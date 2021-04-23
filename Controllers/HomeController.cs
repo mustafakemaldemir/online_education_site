@@ -64,8 +64,9 @@ namespace online_education_site.Controllers
         [HttpPost]
         public IActionResult Student_LOGIN(LoginModel model) //If-Else blokları ile dolulukları kontrol et!
         {
-            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email &&
-                 user.UserPassword == model.user_Password);
+            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email 
+                && user.UserPassword == model.user_Password);
+
             if (user != null)
             {
                 var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
@@ -74,14 +75,16 @@ namespace online_education_site.Controllers
                 {
                     AuthenticateUser(user.UserEmail, UserTypes.Student);
 
-                    return RedirectLessons_Student();
+                    return Redirect_After_Login_Student_Index();
                 }
                 ModelState.AddModelError("NotFound", "Student not found!");
+
                 return View();
             }
             else
             {
                 ModelState.AddModelError("NotFound", "User not found!");
+
                 return View();
             }
         }
@@ -89,8 +92,9 @@ namespace online_education_site.Controllers
         [HttpPost]
         public IActionResult Teacher_LOGIN(LoginModel model) //If-Else blokları ile dolulukları kontrol et!
         {
-            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email &&
-                 user.UserPassword == model.user_Password);
+            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email 
+                && user.UserPassword == model.user_Password);
+
             if (user != null)
             {
                 var teacher = _veritabani.Teachers.FirstOrDefault(teacher => teacher.TeacherUserId == user.UserId);
@@ -98,15 +102,17 @@ namespace online_education_site.Controllers
                 {
                     AuthenticateUser(user.UserEmail, UserTypes.Teacher);
 
-                    return RedirectLessons_Teacher();
+                    return Redirect_After_Login_Teacher_Index();
                 }
-                // TODO : teacher not found
+                ModelState.AddModelError("NotFound", "Instructor not found!");
+
                 return View();
             }
 
             else
             {
-                // user not found
+                ModelState.AddModelError("NotFound", "User not found!");
+
                 return View();
             }
         }
@@ -136,7 +142,7 @@ namespace online_education_site.Controllers
 
             AuthenticateUser(user.UserEmail, UserTypes.Student);
 
-            return RedirectIndex();
+            return Redirect_After_Login_Student_Index();
         }
 
         [HttpPost]
@@ -164,7 +170,7 @@ namespace online_education_site.Controllers
 
             AuthenticateUser(user.UserEmail, UserTypes.Teacher);
 
-            return RedirectIndex();
+            return Redirect_After_Login_Teacher_Index();
         }
 
         public async Task<IActionResult> Logout()
@@ -188,6 +194,16 @@ namespace online_education_site.Controllers
         public IActionResult RedirectREGISTER()// Register seçim ekranına sayfasına yönlendirme.
         {
             return RedirectToAction(nameof(REGISTER));
+        }
+
+        public IActionResult Redirect_After_Login_Student_Index() // After_Login_Student_Index sayfasına yönlendirme
+        {
+            return RedirectToAction("After_Login_Student_Index", "AfterLogin_Student");
+        }
+
+        public IActionResult Redirect_After_Login_Teacher_Index()// After_Login_Teacher_Index sayfasına yönlendirme
+        {
+            return RedirectToAction("After_Login_Teacher_Index", "AfterLogin_Teacher");
         }
 
         public IActionResult RedirectUserPage_Student()// UserPage_Student sayfasına yönlendirme.

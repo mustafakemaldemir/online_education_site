@@ -15,8 +15,8 @@ namespace online_education_site.EntityFramework.Models
 
         public int LessonId { get; set; }
         public string LessonName { get; set; }
-        public int? LessonClassId { get; set; }
-        public int LessonTeacherId { get; set; }
+        public int LessonClassId { get; set; }
+        public int? LessonTeacherId { get; set; }
 
         public virtual Cnumber LessonClass { get; set; }
         public virtual Teacher LessonTeacher { get; set; }

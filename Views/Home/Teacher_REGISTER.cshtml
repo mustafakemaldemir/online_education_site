@@ -22,6 +22,7 @@
 
     <label for="branch">Branch</label>    
     <select class="form-select" id="branch" name="teacher_BranchID">
+
         @foreach (var branch in Model)
         {
             <option value="@branch.BranchId">

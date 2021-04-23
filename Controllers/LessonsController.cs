@@ -23,8 +23,7 @@ namespace online_education_site.Controllers
         public IActionResult Lessons_Student()
         {
             var claim = User.Claims.FirstOrDefault();
-            var user = ClaimHelper.GetUser(claim);
-           
+            var user = ClaimHelper.GetUser(claim);           
             var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
 
             if (student == null)
@@ -41,25 +40,37 @@ namespace online_education_site.Controllers
         public IActionResult Lessons_Teacher()
         {
             var claim = User.Claims.FirstOrDefault();
-            var user = ClaimHelper.GetUser(claim);
-            
+            var user = ClaimHelper.GetUser(claim);            
             var teacher = _veritabani.Teachers.FirstOrDefault(teacher => teacher.TeacherUserId == user.UserId);
+            var branchname = _veritabani.Branches.Where(branchname => branchname.BranchId == teacher.TeacherBranchId)
+                .Select(branchname => branchname.BranchName).ToString();
+                
 
             if (teacher == null)
             {
-                return Content("Öğretmen bulunamadı");
+                return Content("Instructor not found!");
             }
 
-            var lessons = _veritabani.Lessons.Where(lessonteacher => lessonteacher.LessonTeacherId == teacher.TeacherId)
-                .Select(lessonteacher => lessonteacher.LessonName).ToList();
+            var courses = _veritabani.Lessons.Where(cs => cs.LessonName == branchname)
+                .Select(cs => cs.LessonName).ToList();
 
-            return View(lessons);
+            return View(courses);
         }
 
-        public IActionResult All_Classes()
+        public IActionResult All_Lessons()
         {
-            var classes = _veritabani.Cnumbers.Select(classnumber => classnumber.ClassNumber).ToList();
-            return View(classes);
+            var claim = User.Claims.FirstOrDefault();
+            var user = ClaimHelper.GetUser(claim);
+            var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
+
+            if (student == null)
+            {
+                return Content("Öğrenci bulunamadı!");
+            }
+
+            var lessons = _veritabani.Lessons.ToList();
+
+            return View(lessons);
         }
 
         [HttpGet]
@@ -67,14 +78,19 @@ namespace online_education_site.Controllers
         {
             var claim = User.Claims.FirstOrDefault();
             var user = ClaimHelper.GetUser(claim);
-
             var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
+
+            if (student == null)
+            {
+                return Content("Öğrenci bulunamadı!");
+            }
+
             var studentLessonIds = _veritabani.CourseStudents
                 .Where(cs => cs.CourseStudentId == student.StudentId)
                 .Select(cs => cs.CourseLessonId)
                 .ToList();
 
-            var lessons = _veritabani.Lessons.Where(l => l.LessonClassId == student.StudentClassId && !studentLessonIds.Contains((int)l.LessonId)).ToList();
+            var lessons = _veritabani.Lessons.Where(l => !studentLessonIds.Contains((int)l.LessonId)).ToList();
 
             return View(lessons);
         }
@@ -84,8 +100,12 @@ namespace online_education_site.Controllers
         {
             var claim = User.Claims.FirstOrDefault();
             var user = ClaimHelper.GetUser(claim);
-
             var student = _veritabani.Students.FirstOrDefault(student => student.StudentUserId == user.UserId);
+
+            if (student == null)
+            {
+                return Content("Öğrenci bulunamadı!");
+            }
 
             _veritabani.CourseStudents.Add(new CourseStudent
             {
@@ -102,6 +122,11 @@ namespace online_education_site.Controllers
             var lesson = _veritabani.Lessons.FirstOrDefault(lesson => lesson.LessonId == id);
 
             return View(lesson);
+        }
+
+        public IActionResult Add_Document()
+        {
+            return View();
         }
     }
 }
