@@ -30,6 +30,16 @@ namespace online_education_site.Controllers
             return View();
         }
 
+        public IActionResult Account_Settings_Teacher()
+        {
+            return View();
+        }
+
+        public IActionResult Uploaded_documents_byTeacher()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Teacher_Update()
         {
