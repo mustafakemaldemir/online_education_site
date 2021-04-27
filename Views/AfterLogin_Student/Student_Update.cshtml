@@ -29,8 +29,8 @@
         <input id="sifre" name="user_Password" />
     *@
 
-    @Html.LabelFor(m => m.user_Password, new { @class = "form-control-label", @for = "input-email" })
-    @Html.TextBoxFor(m => m.user_Password, new { @class = "form-control", id = "input-email" })
+    @Html.LabelFor(m => m.user_Password, new { @class = "form-control-label", @for = "input-password" })
+    @Html.PasswordFor(m => m.user_Password, new { @class = "form-control", id = "input-password" })
     <br />
 
     @*
@@ -38,8 +38,8 @@
         <input id="sifre" name="new_user_Password" />
     *@
 
-    @Html.LabelFor(m => m.new_user_Password, new { @class = "form-control-label", @for = "input-email" })
-    @Html.TextBoxFor(m => m.new_user_Password, new { @class = "form-control", id = "input-email" })
+    @Html.LabelFor(m => m.new_user_Password, new { @class = "form-control-label", @for = "input-password" })
+    @Html.PasswordFor(m => m.new_user_Password, new { @class = "form-control", id = "input-password" })
     <br />
 
     @*

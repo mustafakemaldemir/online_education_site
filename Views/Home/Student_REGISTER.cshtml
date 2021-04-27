@@ -21,7 +21,7 @@
     *@
 
     @Html.LabelFor(m => m.user_Password, new { @class = "form-control-label", @for = "input-password" })
-    @Html.TextBoxFor(m => m.user_Password, new { @class = "form-control", id = "input-password" })
+    @Html.PasswordFor(m => m.user_Password, new { @class = "form-control", id = "input-password" })
     <br />
 
     @*
@@ -51,5 +51,20 @@
     @Html.TextBoxFor(m => m.student_ClassID, new { @class = "form-control", id = "input-name" })
     <br />
 
+
+    @*<label for="cnumber">Student Class</label>
+        <select class="form-select" id="cnumber" name="AvailableLessons">
+
+            @foreach (var cnumber in Model.cnumbers) //(var branch in Model.Branches)
+            {
+                <option value="@cnumber.ClassId">
+
+                    @cnumber.ClassNumber
+
+                </option>
+            }
+        </select>
+        <br />
+    *@
     <button class="btn btn-primary" type="submit">Register</button>
 }

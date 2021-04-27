@@ -1,1 +1,14 @@
-﻿<h1>Add Document Page</h1>
+﻿@model List<online_education_site.EntityFramework.Models.Lesson>
+
+<h1>Add Document Page</h1>
+
+<ul>
+    @foreach (var lesson in Model)
+    {
+        <li>
+            <a href="@Url.Action("AddDocumentLesson", "Lessons", new {id = lesson.LessonId})">
+                @lesson.LessonClassId @lesson.LessonName
+            </a>
+        </li>
+    }
+</ul>

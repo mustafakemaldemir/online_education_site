@@ -1,0 +1,13 @@
+﻿@model List<online_education_site.EntityFramework.Models.Document>
+
+<ul>
+    @foreach (var document in Model)
+    {
+        var folderName = document.DocumentClassId + " - " + document.DocumentLesson.LessonName;
+        <li>
+            <a href="@Url.Action("DownloadFile", "Lessons", new {fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})">
+                @document.DocumentName
+            </a>
+        </li>
+    }
+</ul>

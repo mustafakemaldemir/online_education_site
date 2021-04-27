@@ -44,6 +44,8 @@ namespace online_education_site.Controllers
         [HttpGet]
         public IActionResult Student_REGISTER()
         {
+            //var classes = GetClasses();
+            //return View(classes);
             return View();
         }
 
@@ -145,6 +147,13 @@ namespace online_education_site.Controllers
             return Redirect_After_Login_Student_Index();
         }
 
+        public List<Cnumber> GetClasses() //Bütün sınıfların döndürülmesi için.
+        {
+            var classes = _veritabani.Cnumbers.ToList();           
+
+            return classes;
+        }
+
         [HttpPost]
         public IActionResult Teacher_REGISTER(TeacherRegisterModel model) //If-Else blokları ile dolulukları kontrol et!
         {
@@ -175,8 +184,7 @@ namespace online_education_site.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index");
         }
@@ -224,7 +232,6 @@ namespace online_education_site.Controllers
         {
             return RedirectToAction("Lessons_Teacher", "Lessons");
         }
-
         public IActionResult Index()
         {
             return View();

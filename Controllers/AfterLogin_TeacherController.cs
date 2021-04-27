@@ -33,12 +33,7 @@ namespace online_education_site.Controllers
         public IActionResult Account_Settings_Teacher()
         {
             return View();
-        }
-
-        public IActionResult Uploaded_documents_byTeacher()
-        {
-            return View();
-        }
+        }        
 
         [HttpGet]
         public IActionResult Teacher_Update()
@@ -99,7 +94,7 @@ namespace online_education_site.Controllers
                     {
                         _veritabani.SaveChanges();
 
-                        return RedirectIndex();
+                        return RedirectLogoutIndex();
                     }
                     catch (Exception e)
                     {
@@ -117,19 +112,21 @@ namespace online_education_site.Controllers
                 return View();
         }       
 
-        public IActionResult RedirectUserPage_Teacher()// UserPage_Teacher sayfasına yönlendirme.
+        public IActionResult RedirectUserPage_Teacher() //UserPage_Teacher sayfasına yönlendirme.
         {
             return RedirectToAction(nameof(UserPage_Teacher));
         }
-        public IActionResult RedirectIndex()// Index sayfasına yönlendirme.
+        public IActionResult RedirectIndex() //Index sayfasına yönlendirme.
         {
             return RedirectToAction("Index", "Home");
         }
-
-        public IActionResult Redirect_After_Logın_Teacher_Index()// After_Logın_Teacher_Index sayfasına yönlendirme.
+        public IActionResult RedirectLogoutIndex() //Logout Index sayfasına yönlendirme.
+        {
+            return RedirectToAction("Logout", "Home");
+        }
+        public IActionResult Redirect_After_Logın_Teacher_Index() //After_Logın_Teacher_Index sayfasına yönlendirme.
         {
             return RedirectToAction(nameof(After_Login_Teacher_Index));
         }
-
     }
 }

@@ -31,8 +31,7 @@ namespace online_education_site.Helpers
             {
                 throw new Exception("Kullanıcı bulunamadı!");
             }
-
             return user;
-        }
+        }        
     }
 }

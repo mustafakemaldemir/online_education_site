@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using online_education_site.EntityFramework.Models;
 
 namespace online_education_site.Models
 {
-    public class StudentRegisterModel
+    public class Student_Register_Model_2
     {
         [Required(ErrorMessage = "E-mail field is required.")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
@@ -19,16 +20,14 @@ namespace online_education_site.Models
         [Display(Name = "Password")]
         public string user_Password { get; set; }
 
-        [Required(ErrorMessage = "Name field is required.")]        
+        [Required(ErrorMessage = "Name field is required.")]
         [Display(Name = "Student Name")]
         public string student_Name { get; set; }
 
-        [Required(ErrorMessage = "Surname field is required.")]        
+        [Required(ErrorMessage = "Surname field is required.")]
         [Display(Name = "Student Surname")]
-        public string student_Surname { get; set; }
+        public string student_Surname { get; set; }       
 
-        [Required(ErrorMessage = "Class field is required.")]        
-        [Display(Name = "Class")]
-        public int student_ClassID { get; set; }
+        public List<Cnumber> cnumbers { get; set; }
     }
 }

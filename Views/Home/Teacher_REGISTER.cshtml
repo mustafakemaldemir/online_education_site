@@ -8,7 +8,7 @@
     <input id="email" name="user_Email" />
     <br />
 
-    <label for="sifre">Şifre</label>
+    <label for="sifre">Password</label>
     <input id="sifre" name="user_Password" />
     <br />
 
@@ -23,8 +23,8 @@
     <label for="branch">Branch</label>    
     <select class="form-select" id="branch" name="teacher_BranchID">
 
-        @foreach (var branch in Model)
-        {
+        @foreach (var branch in Model) //(var branch in Model.Branches)
+                {
             <option value="@branch.BranchId">
 
                 @branch.BranchName
@@ -37,3 +37,11 @@
 
     <button class="btn btn-primary" type="submit">Register</button>
 }
+
+@* 
+    string email
+    string sifre
+    ...
+
+    list<branch> branches
+*@

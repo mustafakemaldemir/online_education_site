@@ -92,7 +92,7 @@ namespace online_education_site.Controllers
                     {
                         _veritabani.SaveChanges();
 
-                        return RedirectIndex();
+                        return RedirectLogoutIndex();
                     }
                     catch (Exception e)
                     {
@@ -118,6 +118,11 @@ namespace online_education_site.Controllers
         public IActionResult RedirectIndex()// Index sayfasına yönlendirme.
         {
             return RedirectToAction("Index","Home");
+        }
+
+        public IActionResult RedirectLogoutIndex()// Logout Index sayfasına yönlendirme.
+        {
+            return RedirectToAction("Logout", "Home");
         }
 
         public IActionResult Redirect_After_Logın_Student_Index()// After_Logın_Student_Index sayfasına yönlendirme.

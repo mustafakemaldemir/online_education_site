@@ -1,6 +1,7 @@
-﻿@model List<online_education_site.EntityFramework.Models.Lesson>
+﻿@model online_education_site.Models.StudentLessonsModel
+
 <ul>
-    @foreach (var lesson in Model) 
+    @foreach (var lesson in Model.CurrentLessons)
     {
         <li>
             <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
@@ -9,3 +10,18 @@
         </li>
     }
 </ul>
+
+
+@using (@Html.BeginForm("Add_Student_Lesson", "Lessons"))
+{
+    <select name="id">
+        @foreach (var lesson in Model.AvailableLessons)
+        {
+            <option value="@lesson.LessonId">
+                @lesson.LessonClassId-@lesson.LessonName
+            </option>
+        }
+    </select>
+
+    <button class="btn btn-primary">Add Course</button>
+}
