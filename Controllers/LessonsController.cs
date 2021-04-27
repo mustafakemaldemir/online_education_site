@@ -193,8 +193,9 @@ namespace online_education_site.Controllers
 
             var document = new Document()
             {
-                DocumentName = random + "_" + model.File.FileName, // Dosyanon gerçek adı, gösterirken kullanıcaz.
+                DocumentName = random + "_" + model.File.FileName, // Dosyanon gerçek adı, gösterilirken kullanılcak
                 DocumentPrefix = random + "_",
+                DocumentRealname = model.File.FileName,
                 DocumentClassId = lesson.LessonClassId,
                 DocumentLessonId = lesson.LessonId,
                 DocumentTeacherId = teacher.TeacherId,

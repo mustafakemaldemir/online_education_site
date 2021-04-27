@@ -26,8 +26,10 @@ namespace online_education_site.Models
 
         [Required(ErrorMessage = "Surname field is required.")]
         [Display(Name = "Student Surname")]
-        public string student_Surname { get; set; }       
+        public string student_Surname { get; set; }
 
-        public List<Cnumber> cnumbers { get; set; }
+        public List<Cnumber> Classes { get; set; }
+
+        public int student_ClassID { get; set; }
     }
 }

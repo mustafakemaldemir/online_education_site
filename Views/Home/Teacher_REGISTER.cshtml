@@ -1,30 +1,52 @@
-﻿@model List<online_education_site.EntityFramework.Models.Branch>
+﻿@model online_education_site.Models.TeacherRegisterModel
 
 <h1><b>Instructor Register Page</b></h1>
 
 @using (@Html.BeginForm("Teacher_REGISTER", "Home"))
 {
-    <label for="email">E-mail</label>
-    <input id="email" name="user_Email" />
+    @Html.ValidationSummary(false, "", new { style = "color: red" })
+
+    @*
+        <label for="email">E-mail</label>
+        <input id="email" name="user_Email" />
+    *@
+
+    @Html.LabelFor(m => m.user_Email, new { @class = "form-control-label", @for = "input-email" })
+    @Html.TextBoxFor(m => m.user_Email, new { @class = "form-control", id = "input-email" })
     <br />
 
-    <label for="sifre">Password</label>
-    <input id="sifre" name="user_Password" />
+    @*
+        <label for="sifre">Password</label>
+        <input id="sifre" name="user_Password" />
+    *@
+
+    @Html.LabelFor(m => m.user_Password, new { @class = "form-control-label", @for = "input-password" })
+    @Html.PasswordFor(m => m.user_Password, new { @class = "form-control", id = "input-password" })
     <br />
 
-    <label for="name">Name</label>
-    <input id="name" name="teacher_Name" />
+    @*
+        <label for="name">Name</label>
+        <input id="name" name="teacher_Name" />
+    *@
+
+    @Html.LabelFor(m => m.teacher_Name, new { @class = "form-control-label", @for = "input-name" })
+    @Html.TextBoxFor(m => m.teacher_Name, new { @class = "form-control", id = "input-name" })
     <br />
 
-    <label for="surname">Surname</label>
-    <input id="surname" name="teacher_Surname" />
+    @*
+        <label for="surname">Surname</label>
+        <input id="surname" name="teacher_Surname" />
+    *@
+
+    @Html.LabelFor(m => m.teacher_Surname, new { @class = "form-control-label", @for = "input-name" })
+    @Html.TextBoxFor(m => m.teacher_Surname, new { @class = "form-control", id = "input-name" })
     <br />
 
-    <label for="branch">Branch</label>    
+    <label for="branch">Branch</label>
     <select class="form-select" id="branch" name="teacher_BranchID">
 
-        @foreach (var branch in Model) //(var branch in Model.Branches)
-                {
+        @foreach (var branch in Model.Branches) //(var branch in Model.Branches)
+        {
             <option value="@branch.BranchId">
 
                 @branch.BranchName
@@ -38,7 +60,7 @@
     <button class="btn btn-primary" type="submit">Register</button>
 }
 
-@* 
+@*
     string email
     string sifre
     ...

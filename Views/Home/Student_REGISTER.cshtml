@@ -1,4 +1,4 @@
-﻿@model online_education_site.Models.StudentRegisterModel
+﻿@model online_education_site.Models.Student_Register_Model_2
 
 <h1><b>Student Register Page</b></h1>
 
@@ -47,24 +47,31 @@
         <input id="cnumber" name="student_ClassID" />
     *@
 
+    @*
+
     @Html.LabelFor(m => m.student_ClassID, new { @class = "form-control-label", @for = "input-name" })
     @Html.TextBoxFor(m => m.student_ClassID, new { @class = "form-control", id = "input-name" })
     <br />
 
-
-    @*<label for="cnumber">Student Class</label>
-        <select class="form-select" id="cnumber" name="AvailableLessons">
-
-            @foreach (var cnumber in Model.cnumbers) //(var branch in Model.Branches)
+    *@
+    
+    <label for="cnumber">Student Class</label>
+    
+        <select class="form-select" id="cnumber" name="student_ClassID">
+    
+            @foreach (var cnumber in Model.Classes)
             {
                 <option value="@cnumber.ClassId">
-
+    
                     @cnumber.ClassNumber
-
+    
                 </option>
             }
+    
         </select>
-        <br />
-    *@
+    
+    <br />
+    
+
     <button class="btn btn-primary" type="submit">Register</button>
 }

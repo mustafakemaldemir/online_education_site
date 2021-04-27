@@ -44,9 +44,12 @@ namespace online_education_site.Controllers
         [HttpGet]
         public IActionResult Student_REGISTER()
         {
-            //var classes = GetClasses();
-            //return View(classes);
-            return View();
+            var classes = GetClasses(); // List <CNumber>
+            var model = new Student_Register_Model_2()
+            {
+                Classes = classes
+            };
+            return View(model);
         }
 
         [HttpGet]
@@ -60,13 +63,18 @@ namespace online_education_site.Controllers
         {
             var branches = _veritabani.Branches.ToList();
 
-            return View(branches);
+            var model = new TeacherRegisterModel()
+            {
+                Branches = branches
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         public IActionResult Student_LOGIN(LoginModel model) //If-Else blokları ile dolulukları kontrol et!
         {
-            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email 
+            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email
                 && user.UserPassword == model.user_Password);
 
             if (user != null)
@@ -94,7 +102,7 @@ namespace online_education_site.Controllers
         [HttpPost]
         public IActionResult Teacher_LOGIN(LoginModel model) //If-Else blokları ile dolulukları kontrol et!
         {
-            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email 
+            var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email
                 && user.UserPassword == model.user_Password);
 
             if (user != null)
@@ -149,7 +157,7 @@ namespace online_education_site.Controllers
 
         public List<Cnumber> GetClasses() //Bütün sınıfların döndürülmesi için.
         {
-            var classes = _veritabani.Cnumbers.ToList();           
+            var classes = _veritabani.Cnumbers.ToList();
 
             return classes;
         }

@@ -14,6 +14,7 @@ namespace online_education_site.EntityFramework.Models
         public int DocumentTeacherId { get; set; }
         public DateTime DocumentDate { get; set; }
         public string DocumentPrefix { get; set; }
+        public string DocumentRealname { get; set; }
 
         public virtual Cnumber DocumentClass { get; set; }
         public virtual Lesson DocumentLesson { get; set; }

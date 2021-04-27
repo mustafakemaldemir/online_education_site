@@ -6,7 +6,7 @@
         var folderName = document.DocumentClassId + " - " + document.DocumentLesson.LessonName;
         <li>
             <a href="@Url.Action("DownloadFile", "Lessons", new {fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})">
-                @document.DocumentName
+                @document.DocumentRealname
             </a>
         </li>
     }

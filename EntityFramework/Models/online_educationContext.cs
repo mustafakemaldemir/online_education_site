@@ -109,6 +109,11 @@ namespace online_education_site.EntityFramework.Models
                     .IsUnicode(false)
                     .HasColumnName("document_Prefix");
 
+                entity.Property(e => e.DocumentRealname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("document_Realname");
+
                 entity.Property(e => e.DocumentTeacherId).HasColumnName("document_TeacherID");
 
                 entity.HasOne(d => d.DocumentClass)
