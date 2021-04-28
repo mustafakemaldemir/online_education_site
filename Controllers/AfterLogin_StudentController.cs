@@ -33,6 +33,11 @@ namespace online_education_site.Controllers
             return View();
         }
 
+        public IActionResult Account_Settings_Student()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Student_Update()
         {
