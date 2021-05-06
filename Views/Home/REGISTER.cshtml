@@ -4,19 +4,18 @@
     <a asp-controller="Home" asp-action="Teacher_REGISTER"><b>Instructor Register</b></a>
 *@
 
-
-    <div class="container px-4 py-5">
-        <div class="g-5 py-5 row">
-            <div class="col-12 col-lg-6">
-                <a href="/Home/Student_REGISTER">
-                    <img src="https://picsum.photos/300/300.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
-                </a>
-            </div>
-
-            <div class="col-12 col-lg-6">
-                <a href="/Home/Teacher_REGISTER">
-                    <img src="https://picsum.photos/300/300.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
-                </a>
-            </div>
-        </div>
+<div class="row">
+    <div class="col-12 col-lg-6">
+        <a href="@Url.Action("Student_REGISTER","Home")" class="register-link">
+            <div class="register-image-description">Student Register</div>
+            <img src="~/images/StudentsP.svg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+        </a>
     </div>
+
+    <div class="col-12 col-lg-6">
+        <a href="@Url.Action("Teacher_REGISTER","Home")" class="register-link">
+            <div class="register-image-description">Instructor Register</div>
+            <img src="~/images/Teacher.svg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+        </a>
+    </div>
+</div>

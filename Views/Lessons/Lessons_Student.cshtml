@@ -1,16 +1,6 @@
 ﻿@model online_education_site.Models.StudentLessonsModel
 
-<ul>
-    @foreach (var lesson in Model.CurrentLessons)
-    {
-        <li>
-            <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
-                @lesson.LessonClassId @lesson.LessonName
-            </a>
-        </li>
-    }
-</ul>
-
+<h1><b>Your Favourite Lessons</b></h1>
 
 @using (@Html.BeginForm("Add_Student_Lesson", "Lessons"))
 {
@@ -25,3 +15,14 @@
 
     <button class="btn btn-primary">Add Course</button>
 }
+
+<ul>
+    @foreach (var lesson in Model.CurrentLessons)
+    {
+        <li>
+            <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
+                @lesson.LessonClassId @lesson.LessonName
+            </a>
+        </li>
+    }
+</ul>
