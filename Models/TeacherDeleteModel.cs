@@ -9,6 +9,7 @@ namespace online_education_site.Models
     public class TeacherDeleteModel
     {
         [Required(ErrorMessage = "E-mail field is required.")]
+        [DataType(DataType.EmailAddress)]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         [Display(Name = "Email")]
         public string user_Email { get; set; }

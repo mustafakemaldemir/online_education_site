@@ -41,7 +41,12 @@ namespace online_education_site.Controllers
         [HttpGet]
         public IActionResult Student_Update()
         {
-            return View();
+            var classes = GetClasses(); // List <CNumber>
+            var model = new StudentUpdateModel()
+            {
+                Classes = classes
+            };
+            return View(model);
         }
 
         [HttpGet]
@@ -113,6 +118,13 @@ namespace online_education_site.Controllers
 
             else
                 return View();
+        }
+
+        public List<Cnumber> GetClasses() //Bütün sınıfların döndürülmesi için.
+        {
+            var classes = _veritabani.Cnumbers.ToList();
+
+            return classes;
         }
 
         public IActionResult RedirectUserPage_Student()// UserPage_Student sayfasına yönlendirme.

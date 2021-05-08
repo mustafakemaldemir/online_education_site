@@ -37,13 +37,30 @@
     @Html.LabelFor(m => m.new_user_Password, new { @class = "form-control-label", @for = "input-password" })
     @Html.PasswordFor(m => m.new_user_Password, new { @class = "form-control", id = "input-password" })
     <br />
+
     @*
         <label for="branch">New Branch</label>
         <input id="branch" name="new_user_BranchID" />
     *@
 
-    @Html.LabelFor(m => m.new_user_BranchID, new { @class = "form-control-label", @for = "input-email" })
-    @Html.TextBoxFor(m => m.new_user_BranchID, new { @class = "form-control", id = "input-email" })
+    @*
+        @Html.LabelFor(m => m.new_user_BranchID, new { @class = "form-control-label", @for = "input-email" })
+        @Html.TextBoxFor(m => m.new_user_BranchID, new { @class = "form-control", id = "input-email" })
+    *@
+
+    <label for="branch">Branch</label>
+    <select class="form-select" id="branch" name="new_user_BranchID">
+
+        @foreach (var branch in Model.Branches) //(var branch in Model.Branches)
+        {
+            <option value="@branch.BranchId">
+
+                @branch.BranchName
+
+            </option>
+        }
+
+    </select>
     <br />
 
     <button class="btn btn-primary" type="submit">Update</button>

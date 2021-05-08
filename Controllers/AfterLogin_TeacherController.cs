@@ -38,7 +38,14 @@ namespace online_education_site.Controllers
         [HttpGet]
         public IActionResult Teacher_Update()
         {
-            return View();
+            var branches = _veritabani.Branches.ToList();
+
+            var model = new TeacherUpdateModel()
+            {
+                Branches = branches
+            };
+
+            return View(model);
         }
 
         [HttpGet]

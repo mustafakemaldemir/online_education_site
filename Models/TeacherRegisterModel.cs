@@ -11,6 +11,7 @@ namespace online_education_site.Models
     {
         [Required(ErrorMessage = "E-mail field is required.")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "E-mail")]
         public string user_Email { get; set; }
 
