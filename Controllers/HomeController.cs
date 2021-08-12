@@ -130,37 +130,50 @@ namespace online_education_site.Controllers
         [HttpPost]
         public IActionResult Student_REGISTER(StudentRegisterModel model) //If-Else blokları ile dolulukları kontrol et!
         {
-            var user = new User()
+            if (model.user_Password != null && model.user_Email != null)
             {
-                UserPassword = model.user_Password,
-                UserEmail = model.user_Email
-            };
+                var user = new User()
+                {
+                    UserPassword = model.user_Password,
+                    UserEmail = model.user_Email
+                };
 
-            _veritabani.Users.Add(user);
-            _veritabani.SaveChanges();
+                _veritabani.Users.Add(user);
+                _veritabani.SaveChanges();                
 
-            var student = new Student()
+                if (model.student_Name != null && model.student_Surname != null) 
+                {
+                    var student = new Student()
+                    {
+                        StudentName = model.student_Name,
+                        StudentSurname = model.student_Surname,
+                        StudentClassId = model.student_ClassID,
+                        StudentUserId = user.UserId
+                    };
+
+                    _veritabani.Students.Add(student);
+                    _veritabani.SaveChanges();
+
+                    AuthenticateUser(user.UserEmail, UserTypes.Student);
+
+                    return Redirect_After_Login_Student_Index();
+                }
+
+                else 
+                {
+                    ModelState.AddModelError("NotFound", "Please do not leave any spaces!");
+
+                    return View();
+                }
+            }
+
+            else 
             {
-                StudentName = model.student_Name,
-                StudentSurname = model.student_Surname,
-                StudentClassId = model.student_ClassID,
-                StudentUserId = user.UserId
-            };
+                ModelState.AddModelError("NotFound", "Please do not leave any spaces!");
 
-            _veritabani.Students.Add(student);
-            _veritabani.SaveChanges();
-
-            AuthenticateUser(user.UserEmail, UserTypes.Student);
-
-            return Redirect_After_Login_Student_Index();
-        }
-
-        public List<Cnumber> GetClasses() //Bütün sınıfların döndürülmesi için.
-        {
-            var classes = _veritabani.Cnumbers.ToList();
-
-            return classes;
-        }
+                return View();
+            }            
+        }        
 
         [HttpPost]
         public IActionResult Teacher_REGISTER(TeacherRegisterModel model) //If-Else blokları ile dolulukları kontrol et!
@@ -188,6 +201,13 @@ namespace online_education_site.Controllers
             AuthenticateUser(user.UserEmail, UserTypes.Teacher);
 
             return Redirect_After_Login_Teacher_Index();
+        }
+
+        public List<Cnumber> GetClasses() //Bütün sınıfların döndürülmesi için.
+        {
+            var classes = _veritabani.Cnumbers.ToList();
+
+            return classes;
         }
 
         public async Task<IActionResult> Logout()
