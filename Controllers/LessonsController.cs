@@ -130,7 +130,7 @@ namespace online_education_site.Controllers
 
             var documents = _veritabani.Documents
                 .Include(d => d.DocumentLesson)
-                .Where(d => d.DocumentTeacherId == teacher.TeacherId )
+                .Where(d => d.DocumentTeacherId == teacher.TeacherId)
                 .ToList();
 
             return View(documents);
@@ -169,7 +169,7 @@ namespace online_education_site.Controllers
         {
             var courses = GetTeacherBranches();
             return View(courses);
-        }                
+        }
 
         [HttpGet]
         public IActionResult AddDocumentLesson(int id)
@@ -191,6 +191,12 @@ namespace online_education_site.Controllers
 
             var random = UploadFile(model.File, lesson.LessonName, classNumber);
 
+            if(random == string.Empty)
+            {
+                ModelState.AddModelError("Dosya Tipi Hatası", "Bu dosya tipi yüklenemez!");
+                return View (); 
+            }
+
             var document = new Document()
             {
                 DocumentName = random + "_" + model.File.FileName, // Dosyanon gerçek adı, gösterilirken kullanılcak
@@ -210,6 +216,28 @@ namespace online_education_site.Controllers
 
         private string UploadFile(IFormFile file, string lessonName, int classNumber)
         {
+            var acceptedMimeTypes = new List<string>
+            {
+                "text/plain",
+                "application/msword",
+                "application/pdf",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                "application/vnd.ms-excel",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "image/jpeg",
+                "image/png",
+                "video/mp4","video/mpeg",
+                "application/vnd.ms-powerpoint",
+                "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            };
+
+            new FileExtensionContentTypeProvider().TryGetContentType(file.FileName, out var mimeType);
+
+            if (!acceptedMimeTypes.Contains(mimeType))
+            {
+                return string.Empty;
+            }
+
             var folderName = $"{classNumber} - {lessonName}";
             var documentPath = Path.Combine(_hostingEnvironment.WebRootPath, @$"uploaded-documents\{folderName}");
             if (!Directory.Exists(documentPath))
@@ -225,8 +253,8 @@ namespace online_education_site.Controllers
 
             return random;
         }
-        
-        public async Task<IActionResult> DownloadFile(string fileName, string folderName ,string prefix)
+
+        public async Task<IActionResult> DownloadFile(string fileName, string folderName, string prefix)
         {
             var fileFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, @$"uploaded-documents\{folderName}");
             if (!Directory.Exists(fileFolderPath))
@@ -250,6 +278,38 @@ namespace online_education_site.Controllers
                 var newName = file.Name.Replace(prefix, "");
                 return File(memory, mimeType, newName);
             }
+        }
+
+        public async Task<IActionResult> Delete_File(int id, string fileName, string folderName, string prefix)
+        {
+            var claim = User.Claims.FirstOrDefault();
+            var user = ClaimHelper.GetUser(claim);
+            var teacher = _veritabani.Teachers.FirstOrDefault(t => t.TeacherUserId == user.UserId);
+
+            var document = _veritabani.Documents
+                .Include(d => d.DocumentLesson)
+                .FirstOrDefault(d => d.DocumentTeacherId == teacher.TeacherId && d.DocumentId == id);
+
+            _veritabani.Documents.Remove(document);
+
+            _veritabani.SaveChanges();
+
+            var fileFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, @$"uploaded-documents\{folderName}");
+            if (!Directory.Exists(fileFolderPath))
+            {
+                return await Task.Run(() => NotFound());
+            }
+            var fileFolder = new DirectoryInfo(fileFolderPath);
+
+            var file = fileFolder.GetFiles(fileName).FirstOrDefault();
+            if (file == null)
+            {
+                return await Task.Run(() => NotFound());
+            }
+
+            file.Delete();
+
+            return RedirectToAction(nameof(Uploaded_documents_byTeacher));
         }
 
         private static Random random = new Random();

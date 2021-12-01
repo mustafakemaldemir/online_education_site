@@ -2,7 +2,7 @@
 
 <h1><b>Instructor's Account Delete Page</b></h1>
 
-@using (@Html.BeginForm("Teacher_Delete", "AfterLogin_Teacher"))
+@using (@Html.BeginForm("Teacher_Delete", "AfterLogin_Teacher", FormMethod.Post, new { @id = "delete-form" }))
 {
     @Html.ValidationSummary(false, "", new { style = "color: red" })
 
@@ -24,5 +24,18 @@
     @Html.PasswordFor(m => m.user_Password, new { @class = "form-control", id = "input-password" })
     <br />
 
-    <button class="btn btn-primary" type="submit">Delete</button>
+    <button class="btn btn-outline-danger" type="submit">
+        Delete
+
+        <div id="spinner" class="spinner-grow text-success d-none " role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+
+    </button>
 }
+
+<script>
+    $("#delete-form").submit(function () {
+        $('#spinner').removeClass('d-none');
+    })
+</script>

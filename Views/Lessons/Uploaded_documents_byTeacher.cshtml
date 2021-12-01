@@ -1,16 +1,137 @@
 ﻿@model List<online_education_site.EntityFramework.Models.Document>
 
-<h1><b>Previously Uploaded Documents by You</b></h1>
+@{
+    var _9Lessons = Model.Where(l => l.DocumentClassId == 9);
+    var _10Lessons = Model.Where(l => l.DocumentClassId == 10);
+    var _11Lessons = Model.Where(l => l.DocumentClassId == 11);
+    var _12Lessons = Model.Where(l => l.DocumentClassId == 12);
+}
 
+@if (_9Lessons.Any())
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">9.Sınıf Dersine Yüklenmiş Dosyalarınız</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var document in _9Lessons)
+            {
+                var folderName = document.DocumentClassId + " - " + document.DocumentLesson.LessonName;
+                <tr>
+                    <td>
+                        <a href="@Url.Action("DownloadFile", "Lessons", new {fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})">
+                            @document.DocumentRealname
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Delete_File", "Lessons", new {id=document.DocumentId, fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})"
+                           class="btn btn-outline-danger">
+                            Dosyayı Sil
+                        </a>
+                    </td>
 
-<ul>
-    @foreach (var document in Model)
-    {
-        var folderName = document.DocumentClassId + " - " + document.DocumentLesson.LessonName;
-        <li>
-            <a href="@Url.Action("DownloadFile", "Lessons", new {fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})">
-                @document.DocumentRealname
-            </a>
-        </li>
-    }
-</ul>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+@if (_10Lessons.Any())
+{
+    <table class="table table-striped table-hover">
+
+        <thead>
+            <tr>
+                <th scope="col">10.Sınıf Dersine Yüklenmiş Dosyalarınız</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var document in _10Lessons)
+            {
+                var folderName = document.DocumentClassId + " - " + document.DocumentLesson.LessonName;
+                <tr>
+                    <td>
+                        <a href="@Url.Action("DownloadFile", "Lessons", new {fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})">
+                            @document.DocumentRealname
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Delete_File", "Lessons", new {id=document.DocumentId, fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})"
+                           class="btn btn-outline-danger">Dosyayı Sil</a>
+                    </td>
+
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+}
+@if (_11Lessons.Any())
+{
+    <table class="table table-striped table-hover">
+
+        <thead>
+            <tr>
+                <th scope="col">11.Sınıf Dersine Yüklenmiş Dosyalarınız</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var document in _11Lessons)
+            {
+                var folderName = document.DocumentClassId + " - " + document.DocumentLesson.LessonName;
+                <tr>
+                    <td>
+                        <a href="@Url.Action("DownloadFile", "Lessons", new {fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})">
+                            @document.DocumentRealname
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Delete_File", "Lessons", new {id=document.DocumentId, fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})"
+                           class="btn btn-outline-danger">Dosyayı Sil</a>
+                    </td>
+
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+}
+@if (_12Lessons.Any())
+{
+    <table class="table table-striped table-hover">
+
+        <thead>
+            <tr>
+                <th scope="col">12. Sınıf Dersine Yüklenmiş Dosyalarınız</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var document in _12Lessons)
+            {
+                var folderName = document.DocumentClassId + " - " + document.DocumentLesson.LessonName;
+                <tr>
+                    <td>
+                        <a href="@Url.Action("DownloadFile", "Lessons", new {fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})">
+                            @document.DocumentRealname
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Delete_File", "Lessons", new {id=document.DocumentId, fileName = document.DocumentName, folderName = folderName, prefix = document.DocumentPrefix})"
+                           class="btn btn-outline-danger">Dosyayı Sil</a>
+                    </td>
+
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+}

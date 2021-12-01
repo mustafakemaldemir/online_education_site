@@ -1,0 +1,163 @@
+﻿@{
+
+    var isLoggedIn = false;
+    var userType = UserTypes.Student;
+    var claim = User.Claims.FirstOrDefault();
+
+    if (claim != null)
+    {
+        var claimModel = JsonSerializer.Deserialize<ClaimModel>(claim.Value);
+        isLoggedIn = true;
+        userType = claimModel.UserType;
+    }
+
+}
+
+
+
+@if (isLoggedIn)
+
+{
+    if (userType == UserTypes.Student)
+    {
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+            <!-- Add icons to the links using the .nav-icon class
+                 with font-awesome or any other icon font library -->
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-folder-open"></i>
+
+                    <p>
+                        Lessons & Documents
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+
+                </a>
+                <ul class="nav nav-treeview">
+
+                    <li class="nav-item">
+                        <a href="@Url.Action("All_Lessons", "Lessons")" class="nav-link">
+                            <i class="far fa-file nav-icon"></i>
+                            <p>All Lessons</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="@Url.Action("Lessons_Student", "Lessons")" class="nav-link">
+                            <i class="far fa-heart nav-icon"></i>
+                            <p>Student's Favourite Lessons</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            @*<li class="nav-item">
+                    <a href="../widgets.html" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Widgets
+                        </p>
+                    </a>
+                </li>*@
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-user-shield"></i>
+                    <p>
+                        Account Options
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Student_Update", "AfterLogin_Student")" class="nav-link">
+                            <i class="fas fa-user-plus nav-icon"></i>
+                            <p>Student's Account Update</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Student_Delete", "AfterLogin_Student")" class="nav-link">
+                            <i class="fas fa-user-slash nav-icon"></i>
+                            <p>Student's Account Delete</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+
+    }
+
+    else
+    {
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+            <!-- Add icons to the links using the .nav-icon class
+                 with font-awesome or any other icon font library -->
+
+            <li class="nav-item">
+                <a href="@Url.Action("Lessons_Teacher", "Lessons")" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Instructor's Branch Lessons
+                    </p>
+                </a>
+            </li>
+
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-folder-open"></i>
+
+                    <p>
+                        Document's Settings
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+
+                </a>
+                <ul class="nav nav-treeview">
+
+                    <li class="nav-item">
+                        <a href="@Url.Action("Add_Document", "Lessons")" class="nav-link">
+                            <i class="far fa-file nav-icon"></i>
+                            <p>Add Document</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="@Url.Action("Uploaded_documents_byTeacher", "Lessons")" class="nav-link">
+                            <i class="far fa-heart nav-icon"></i>
+                            <p>Uploaded Documents</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-user-shield"></i>
+                    <p>
+                        Account Options
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Teacher_Update", "AfterLogin_Teacher")" class="nav-link">
+                            <i class="fas fa-user-plus nav-icon"></i>
+                            <p>Instructor's Account Update</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Teacher_Delete", "AfterLogin_Teacher")" class="nav-link">
+                            <i class="fas fa-user-slash nav-icon"></i>
+                            <p>Instructor's Account Delete</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    }
+}

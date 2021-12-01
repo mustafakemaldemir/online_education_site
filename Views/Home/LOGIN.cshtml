@@ -1,25 +1,160 @@
-﻿@*
-    <a asp-controller="Home" asp-action="Student_LOGIN"><b>Student Login</b></a>
-    <br>
-    <a asp-controller="Home" asp-action="Teacher_LOGIN"><b>Instructor Login</b></a>
-*@
+﻿@{
+    Layout = null;
+}
 
-<div class="row">
-    <div class="col-12 col-lg-6">
-        <a asp-controller="Home" asp-action="Student_LOGIN"><b>Student Login</b></a>
-        <br>
-        <a href="@Url.Action("Student_LOGIN","Home")" class="register-link">
-            @*<div class="register-image-description">Student Login</div>*@
-            <img src="~/images/StudentsP.svg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="400">
-        </a>
+<!DOCTYPE html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>
+        Online Education PLatform | Login Type
+    </title>
+    <!-- Favicon -->
+    <link rel="icon" href="~/images/newonlylogo.png">
+
+
+
+    <link rel="stylesheet" href="/css/p2.css">
+
+    <link rel="stylesheet" href="/css/welcome.css">
+
+    <link rel="stylesheet" href="/css/lang.css">
+
+    <link rel="stylesheet" href="/css/user-min.css">
+
+</head>
+
+<body>
+    <div class="main-content">
+
+        <!-- Header (v13) -->
+        <section class="slice bg-cover bg-size--cover s1" data-offset-top="#header-main">
+
+            <span class="mask bg-dark opacity-8"></span>
+
+            <div class="container">
+
+                <div class="row">
+                    <img src="/images/newsitelogo.png" alt="" class="mx-auto mb-5 portal-logo">
+                </div>
+
+                <div class="row" style="margin-top: 5rem;">
+
+                    <div class="col-lg-12">
+
+                        <div class="text-center">
+
+                            <div id="typed-strings" style="display: none;">
+                                <p> </p>
+                                <p>Sitemizi kullanım durumunuza göre lütfen giriş seçeneklerinden birini seçin.</p>
+                                <p>Ders konu anlatımları, slaytları, örnek sorular ile sınavlara hazırlanın.</p>
+                                <p>Öğrenciler ve ders kaynağı ihtiyacı duyanlar için eğitim dökümanları yükleyin.</p>
+                            </div>
+
+                            <h2 class="display-4 text-white mb-2" id="typed-h2" style="height: calc(2.95rem + 5.4vw);">
+                                <span class="typed" id="typed">Online Education Site</span><span class="typed-cursor">|</span>
+                            </h2>
+
+                            <div class="row justify-content-center">
+                                <div class="col-lg-9">
+
+                                    <p class="lead text-white lh-180" id="typed-pg">
+                                        Login olarak platformun özellliklerini kullanmaya devam edebilrsiniz.
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  mt-3 mb-3">
+                    <div class="col-12 text-center">
+                        <div class="fluid-paragraph">
+                            <p class="lead lh-180"></p>
+                        </div>
+
+                        <a href="@Url.Action("Student_LOGIN", "Home")" class="btn btn-sm btn-primary btn-icon rounded-pill">
+                            Student Login
+                        </a>
+
+                        <a href="@Url.Action("Teacher_LOGIN", "Home")" class="btn btn-sm btn-primary btn-icon rounded-pill">
+                            Instructor Login
+                        </a>
+                    </div>
+                </div>
+                <div class="row pt-3 mt-50">
+                    <div class="col-12">
+                        <div class="card-group flex-column flex-lg-row">
+                            <div class="card bg-gradient-primary border-0 px-4 py-4 ">
+                                <div class="card-body">
+                                    <h5 class="h4 text-white"> Student Login </h5>
+                                    <p class="mt-4 mb-0 text-white">
+                                        <br>
+                                        Öğrenci olarak ders kaynaklarına erişim ve favori derslerinizi belirleyip daha efektif çalışma gerçekleştirin.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card bg-gradient-dark border-0 px-4 py-4 ">
+                                <div class="card-body">
+                                    <h5 class="h4 text-white"> Instructor Login </h5>
+                                    <p class="mt-4 mb-0 text-white">
+                                        Öğrenciler için ders kaynakları yükliyerek eğitim ve öğretime katkıda bulunun.
+                                    </p>
+                                    <p class="mt-4 mb-0 text-white">
+                                        Yüklemiş olduğunuz kaynak dökümanları düzenliyerek güncel bir kütüphane oluşturma imkanı sağlayın.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <div class="col-12 col-lg-6">
-        <a asp-controller="Home" asp-action="Teacher_LOGIN"><b>Instructor Login</b></a>
-        <br>
-        <a href="@Url.Action("Teacher_LOGIN","Home")" class="register-link">
-            @*<div class="register-image-description">Instructor Login</div>*@
-            <img src="~/images/Teacher.svg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="550">
-        </a>
-    </div>
-</div>
+    <script src="/js/typed.min.js"></script>
+
+    <script>
+    var typed = new Typed('#typed', {
+            stringsElement: '#typed-strings',
+            typeSpeed: 50,
+            backSpeed: 0,
+            backDelay: 2000,
+            startDelay: 0,
+            loop: true
+        });
+
+        document.getElementById("typed-h2").style.height = "calc(2 * (1.475rem + 2.7vw))";</script>
+    <style type="text/css" data-typed-js-css="true">
+        .typed-cursor
+        {
+            opacity: 1;
+        }
+
+        .typed-cursor.typed-cursor--blink
+        {
+            animation: typedjsBlink 0.7s infinite;
+            -webkit-animation: typedjsBlink 0.7s infinite;
+            animation: typedjsBlink 0.7s infinite;
+        }
+
+        @*@keyframes typedjsBlink
+        {
+          50% { opacity: 0.0; }
+        }
+
+        @-webkit-keyframes typedjsBlink
+        {
+          0% { opacity: 1; }
+          50% { opacity: 0.0; }
+          100% { opacity: 1; }
+        }*@
+
+    </style>
+
+
+</body>

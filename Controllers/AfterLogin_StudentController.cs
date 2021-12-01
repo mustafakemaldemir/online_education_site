@@ -77,11 +77,22 @@ namespace online_education_site.Controllers
                     return Redirect_After_Logın_Student_Index();
                 }
 
-                else
-                    return Redirect_After_Logın_Student_Index();               
+                else 
+                {
+                    ModelState.AddModelError("NotFound", "Student not found!");
+
+                    return Redirect_After_Logın_Student_Index();
+                }
+                                   
             }
-            else
-                return Redirect_After_Logın_Student_Index();           
+
+            else 
+            {
+                ModelState.AddModelError("NotFound", "User not found!");
+
+                return Redirect_After_Logın_Student_Index();
+            }
+                           
         }
 
         [HttpDelete]
@@ -112,12 +123,21 @@ namespace online_education_site.Controllers
                     }                    
                 }
 
-                else
+                else 
+                {
+                    ModelState.AddModelError("NotFound", "Student not found!");
+
                     return View();
+                }                    
             }
 
-            else
+            else 
+            {
+                ModelState.AddModelError("NotFound", "User not found!");
+
                 return View();
+            }
+                
         }
 
         public List<Cnumber> GetClasses() //Bütün sınıfların döndürülmesi için.

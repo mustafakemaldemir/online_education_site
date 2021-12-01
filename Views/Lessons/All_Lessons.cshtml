@@ -1,15 +1,63 @@
 ﻿@model List<online_education_site.EntityFramework.Models.Lesson>
 
-<h1><b>All Lessons</b></h1>
+@{
+    var _9Lessons = Model.Where(l => l.LessonClassId == 9);
+    var _10Lessons = Model.Where(l => l.LessonClassId == 10);
+    var _11Lessons = Model.Where(l => l.LessonClassId == 11);
+    var _12Lessons = Model.Where(l => l.LessonClassId == 12);
+}
 
-
-<ul>
-    @foreach (var lesson in Model)
-    {
-        <li>
-            <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
-                @lesson.LessonClassId @lesson.LessonName
-            </a>
-        </li>
-    }
-</ul>
+<div class="row">
+    <div class="col-2 mx-2">
+        <h3 class="fw-bold mb-2">9. Sınıf dersleri</h3>
+        <ul class="list-group">
+            @foreach (var lesson in _9Lessons)
+            {
+                <li class="list-group-item">
+                    <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
+                        @lesson.LessonClassId @lesson.LessonName
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-2 mx-2">
+        <h3 class="fw-bold mb-2">10. Sınıf dersleri</h3>
+        <ul class="list-group">
+            @foreach (var lesson in _10Lessons)
+            {
+                <li class="list-group-item">
+                    <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
+                        @lesson.LessonClassId @lesson.LessonName
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-2 mx-2">
+        <h3 class="fw-bold mb-2">11. Sınıf dersleri</h3>
+        <ul class="list-group">
+            @foreach (var lesson in _11Lessons)
+            {
+                <li class="list-group-item">
+                    <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
+                        @lesson.LessonClassId @lesson.LessonName
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-2 mx-2">
+        <h3 class="fw-bold mb-2">12. Sınıf dersleri</h3>
+        <ul class="list-group">
+            @foreach (var lesson in _12Lessons)
+            {
+                <li class="list-group-item">
+                    <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
+                        @lesson.LessonClassId @lesson.LessonName
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

@@ -1,5 +1,20 @@
 ﻿@model online_education_site.Models.AddDocumentModel
-
+@{ 
+    var accepted_types = new List<string>()
+    {
+        "text/plain",
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.ms-excel",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "image/jpeg",
+        "image/png",
+        "video/mp4","video/mpeg",
+        "application/vnd.ms-powerpoint",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    };
+}
 <h1><b>Add Document</b></h1>
 
 @using (@Html.BeginForm("AddDocumentLesson", "Lessons", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -11,11 +26,11 @@
         <label for="formFile" class="form-label">Select File</label>
         @*<input class="form-control" type="file" id="formFile" name="File">*@
 
-        <input type="file" asp-for="@Model.File" id="formFile" class="form-control">
+        <input type="file" asp-for="@Model.File" id="formFile" class="form-control" accept="@string.Join(",",accepted_types)">
 
         <input type="hidden" name="Id" value="@ViewBag.LessonId">
 
     </div>
 
-    <button class="btn btn-primary" type="submit">Upload</button>
+    <button class="btn btn-outline-success" type="submit">Upload</button>
 }

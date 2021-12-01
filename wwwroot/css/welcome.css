@@ -1,0 +1,94 @@
+﻿.bg-gradient-primary {
+    background: linear-gradient(50deg, #9a1010 0, #c30000 100%) !important;
+}
+
+.bg-gradient-dark {
+    background: linear-gradient(50deg, #2f2d2d 0, #252525 100%) !important;
+}
+
+.btn {
+    background: linear-gradient(50deg, #ff2525 0, #ff0000 100%) !important;
+    background: linear-gradient(40deg, #9a1010 0, #c30000 100%) !important;
+    color: white;
+}
+
+#typed-h2 {
+    height: auto;
+}
+
+.portal-logo {
+    height: 120px;
+    max-width: 90%;
+}
+
+.s1 {
+    min-height: 100vh;
+    background-image: url('/images/education.svg');
+    background-color: white;
+}
+
+section {
+    min-width: 300px;
+}
+
+.mt-50 {
+    margin-top: 50px;
+}
+
+.slice {
+    position: relative;
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+}
+
+.bg-dark {
+    background-color: #101010 !important;
+}
+
+
+
+@media only screen and (max-width: 1200px) {
+    #typed-h2 {
+        height: calc(2 * (1.475rem + 2.7vw));
+    }
+
+    #typed-pg {
+        margin-top: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .s1 {
+        height: inherit;
+    }
+
+    .portal-logo {
+        height: auto;
+    }
+
+    #typed-h2 {
+        height: calc(2 * (1.475rem + 2.7vw));
+    }
+
+    #typed-pg {
+        margin-top: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 567px) {
+    .s1 {
+        height: inherit;
+    }
+
+    .portal-logo {
+        height: auto;
+    }
+
+    #typed-h2 {
+        height: calc(2 * (1.475rem + 2.7vw));
+    }
+
+    #typed-pg {
+        margin-top: 1.5rem;
+    }
+}

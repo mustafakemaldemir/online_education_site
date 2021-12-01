@@ -12,16 +12,26 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Net;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace online_education_site.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly string _secret;
 
         private readonly online_educationContext _veritabani;
 
         public HomeController(online_educationContext context)
         {
+            var conf = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            _secret = conf.GetSection("GoogleApi").GetSection("secret").Value;
+
             _veritabani = context;
         }
 
@@ -49,6 +59,7 @@ namespace online_education_site.Controllers
             {
                 Classes = classes
             };
+
             return View(model);
         }
 
@@ -74,6 +85,27 @@ namespace online_education_site.Controllers
         [HttpPost]
         public IActionResult Student_LOGIN(LoginModel model) //If-Else blokları ile dolulukları kontrol et!
         {
+            var response = Request.Form["g-recaptcha-response"];
+            var restUrl = string.Format($"https://www.google.com/recaptcha/api/siteverify?secret={_secret}&response={response}");
+
+            var client = new WebClient();
+            var reply = client.DownloadString
+                (string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", _secret, response));
+
+            var captchaResult = JsonSerializer.Deserialize<CaptchaResult>(reply);
+            if (!captchaResult.Success)
+            {
+                if (captchaResult.ErrorCodes[0] == "missing-input-response")
+                {
+                    ModelState.AddModelError("Captcha Hata", "Captcha boş bırakılamaz!");
+                }
+                else
+                {
+                    ModelState.AddModelError("Captcha Hata", "Captcha hatalı!");
+                }
+                return View ();
+            }           
+
             var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email
                 && user.UserPassword == model.user_Password);
 
@@ -87,9 +119,13 @@ namespace online_education_site.Controllers
 
                     return Redirect_After_Login_Student_Index();
                 }
-                ModelState.AddModelError("NotFound", "Student not found!");
 
-                return View();
+                else 
+                {
+                    ModelState.AddModelError("NotFound", "Student not found!");
+
+                    return View();
+                }                
             }
             else
             {
@@ -102,21 +138,47 @@ namespace online_education_site.Controllers
         [HttpPost]
         public IActionResult Teacher_LOGIN(LoginModel model) //If-Else blokları ile dolulukları kontrol et!
         {
+            var response = Request.Form["g-recaptcha-response"];
+            var restUrl = string.Format($"https://www.google.com/recaptcha/api/siteverify?secret={_secret}&response={response}");
+
+            var client = new WebClient();
+            var reply = client.DownloadString
+                (string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", _secret, response));
+
+            var captchaResult = JsonSerializer.Deserialize<CaptchaResult>(reply);
+            if (!captchaResult.Success)
+            {
+                if (captchaResult.ErrorCodes[0] == "missing-input-response")
+                {
+                    ModelState.AddModelError("Captcha Hata", "Captcha boş bırakılamaz!");
+                }
+                else
+                {
+                    ModelState.AddModelError("Captcha Hata", "Captcha hatalı!");
+                }
+                return View();
+            }
+
             var user = _veritabani.Users.FirstOrDefault(user => user.UserEmail == model.user_Email
                 && user.UserPassword == model.user_Password);
 
             if (user != null)
             {
                 var teacher = _veritabani.Teachers.FirstOrDefault(teacher => teacher.TeacherUserId == user.UserId);
+
                 if (teacher != null)
                 {
                     AuthenticateUser(user.UserEmail, UserTypes.Teacher);
 
                     return Redirect_After_Login_Teacher_Index();
                 }
-                ModelState.AddModelError("NotFound", "Instructor not found!");
 
-                return View();
+                else 
+                {
+                    ModelState.AddModelError("NotFound", "Instructor not found!");
+
+                    return View();
+                }                
             }
 
             else
@@ -130,6 +192,28 @@ namespace online_education_site.Controllers
         [HttpPost]
         public IActionResult Student_REGISTER(StudentRegisterModel model) //If-Else blokları ile dolulukları kontrol et!
         {
+            var response = Request.Form["g-recaptcha-response"];
+            var restUrl = string.Format($"https://www.google.com/recaptcha/api/siteverify?secret={_secret}&response={response}");
+
+            var client = new WebClient();
+            var reply = client.DownloadString
+                (string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", _secret, response));
+
+            var captchaResult = JsonSerializer.Deserialize<CaptchaResult>(reply);
+
+            if (!captchaResult.Success)
+            {
+                if (captchaResult.ErrorCodes[0] == "missing-input-response")
+                {
+                    ModelState.AddModelError("Captcha Hata", "Captcha boş bırakılamaz!");
+                }
+                else
+                {
+                    ModelState.AddModelError("Captcha Hata", "Captcha hatalı!");
+                }
+                return View();
+            }
+
             if (model.user_Password != null && model.user_Email != null)
             {
                 var user = new User()
@@ -141,7 +225,7 @@ namespace online_education_site.Controllers
                 _veritabani.Users.Add(user);
                 _veritabani.SaveChanges();                
 
-                if (model.student_Name != null && model.student_Surname != null) 
+                if (model.student_Name != null && model.student_Surname != null)
                 {
                     var student = new Student()
                     {
@@ -156,7 +240,7 @@ namespace online_education_site.Controllers
 
                     AuthenticateUser(user.UserEmail, UserTypes.Student);
 
-                    return Redirect_After_Login_Student_Index();
+                    return RedirectToAction("Index");
                 }
 
                 else 
@@ -178,29 +262,72 @@ namespace online_education_site.Controllers
         [HttpPost]
         public IActionResult Teacher_REGISTER(TeacherRegisterModel model) //If-Else blokları ile dolulukları kontrol et!
         {
-            var user = new User()
+            var response = Request.Form["g-recaptcha-response"];
+            var restUrl = string.Format($"https://www.google.com/recaptcha/api/siteverify?secret={_secret}&response={response}");
+
+            var client = new WebClient();
+            var reply = client.DownloadString
+                (string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", _secret, response));
+
+            var captchaResult = JsonSerializer.Deserialize<CaptchaResult>(reply);
+
+            if (!captchaResult.Success)
             {
-                UserPassword = model.user_Password,
-                UserEmail = model.user_Email
-            };
+                if (captchaResult.ErrorCodes[0] == "missing-input-response")
+                {
+                    ModelState.AddModelError("Captcha Hata", "Captcha boş bırakılamaz!");
+                }
+                else
+                {
+                    ModelState.AddModelError("Captcha Hata", "Captcha hatalı!");
+                }
+                return View();
+            }
 
-            _veritabani.Users.Add(user);
-            _veritabani.SaveChanges();
-
-            var teacher = new Teacher()
+            if (model.user_Password != null && model.user_Email != null)
             {
-                TeacherName = model.teacher_Name,
-                TeacherSurname = model.teacher_Surname,
-                TeacherBranchId = model.teacher_BranchID,
-                TeacherUserId = user.UserId
-            };
 
-            _veritabani.Teachers.Add(teacher);
-            _veritabani.SaveChanges();
+                var user = new User()
+                {
+                    UserPassword = model.user_Password,
+                    UserEmail = model.user_Email
+                };
 
-            AuthenticateUser(user.UserEmail, UserTypes.Teacher);
+                _veritabani.Users.Add(user);
+                _veritabani.SaveChanges();
 
-            return Redirect_After_Login_Teacher_Index();
+                if (model.teacher_Name != null && model.teacher_Surname != null) 
+                {
+                    var teacher = new Teacher()
+                    {
+                        TeacherName = model.teacher_Name,
+                        TeacherSurname = model.teacher_Surname,
+                        TeacherBranchId = model.teacher_BranchID,
+                        TeacherUserId = user.UserId
+                    };
+
+                    _veritabani.Teachers.Add(teacher);
+                    _veritabani.SaveChanges();
+
+                    AuthenticateUser(user.UserEmail, UserTypes.Teacher);
+
+                    return RedirectToAction("Index");
+                }
+
+                else
+                {
+                    ModelState.AddModelError("NotFound", "Please do not leave any spaces!");
+
+                    return View();
+                }
+            }
+
+            else
+            {
+                ModelState.AddModelError("NotFound", "Please do not leave any spaces!");
+
+                return View();
+            }
         }
 
         public List<Cnumber> GetClasses() //Bütün sınıfların döndürülmesi için.
@@ -208,6 +335,33 @@ namespace online_education_site.Controllers
             var classes = _veritabani.Cnumbers.ToList();
 
             return classes;
+        }
+
+        private async void AuthenticateUser(string userName, UserTypes userType)
+        {
+            var claim = new ClaimModel { UserName = userName, UserType = userType };
+
+            string jsonString = JsonSerializer.Serialize(claim);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, jsonString) //Guid.NewGuid().ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties();
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public async Task<IActionResult> Logout()
@@ -269,33 +423,5 @@ namespace online_education_site.Controllers
         {
             return View();
         }
-
-        private async void AuthenticateUser(string userName, UserTypes userType)
-        {
-            var claim = new ClaimModel { UserName = userName, UserType = userType };
-
-            string jsonString = JsonSerializer.Serialize(claim);
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, jsonString) //Guid.NewGuid().ToString())
-            };
-
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var authProperties = new AuthenticationProperties();
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
     }
 }

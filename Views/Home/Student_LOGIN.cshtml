@@ -1,29 +1,160 @@
 ﻿@model online_education_site.Models.LoginModel
 
-<h1><b>Student Login Page</b></h1>
-
-@using (@Html.BeginForm("Student_LOGIN", "Home"))
-{
-    @Html.ValidationSummary(false, "", new { style = "color: red" })
-
-    @*
-        @<label for="email">E-mail</label>
-        <input id="email" name="user_Email" />
-    *@
-
-    @Html.LabelFor(m => m.user_Email, new { @class = "form-control-label", @for = "input-email" })
-    @Html.TextBoxFor(m => m.user_Email, new { @class = "form-control", id = "input-email" })
-    <br />
-
-    @*
-        @<label for="sifre">Şifre</label>
-        <input id="sifre" name="user_Password" />
-    *@
-
-    @Html.LabelFor(m => m.user_Password, new { @class = "form-control-label", @for = "input-password" })
-    @Html.PasswordFor(m => m.user_Password, new { @class = "form-control", id = "input-password" })
-    <br />
-
-    <button class="btn btn-primary" type="submit">Login</button>
+@{
+    Layout = null;
 }
 
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Student Login Page | Online Education Platform</title>
+    <link rel="icon" href="/images/newonlylogo.png">
+    <link rel="stylesheet" href="/css/user-min.css">    
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <style>
+        blockquote {
+            font-family: "Nunito", sans-serif;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="main-content">
+        <section class="slice slice-lg min-vh-100 d-flex align-items-center bg-section-secondary">
+
+            <div class="bg-absolute-cover bg-size--contain">
+                
+                <img alt="" class="bg-image" src="/images/undraw_secure_login_pdn4.svg">
+
+            </div>
+
+            <div class="container py-5 px-md-0 d-flex align-items-center">
+
+                <div class="w-100">
+
+                    <div class="row row-grid justify-content-center justify-content-lg-between align-items-center">
+
+                        <div class="col-sm-8 col-lg-6 col-xl-5 order-lg-2">
+
+                            <div class="card shadow zindex-100 mb-0">                                
+
+                                    <img alt="" src="/images/newsitelogo.png" class="portal-logo mx-auto">
+
+                                    <div class="card-body px-md-5 py-5 ">
+
+                                        <div class="mb-5">
+                                            <h6 class="h3">LOGIN</h6>
+                                            <p class=" mb-0">Devam etmek için giriş yapın.</p>
+                                        </div>
+
+                                        <span class="clearfix"></span>
+
+                                        @using (Html.BeginForm("Student_LOGIN", "Home", FormMethod.Post, new { @id = "login-form" }))
+                                        {
+                                            @Html.ValidationSummary(false, "", new { style = "color: white" })
+
+                                            <div class="form-group">
+
+                                                @Html.LabelFor(m => m.user_Email, new { @class = "form-control-label", @for = "input-email" })
+
+                                                <div class="input-group input-group-merge">
+
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    </div>
+
+                                                    @Html.TextBoxFor(m => m.user_Email, new { @class = "form-control", id = "input-email" })
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group mb-4">
+
+                                                <div class="d-flex align-items-center justify-content-between">
+
+                                                    <div>
+                                                        @Html.LabelFor(m => m.user_Password, new { @class = "form-control-label", @for = "input-password" })
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="input-group input-group-merge">
+
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                                    </div>
+
+                                                    @Html.PasswordFor(m => m.user_Password, new { @class = "form-control", id = "input-password" })
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="g-recaptcha" data-sitekey="6LdiJN0cAAAAAChGPYY6aNqpNePaI4iccsf6ydbJ"></div>
+                                            </div>
+
+                                            <div class="mt-4">
+
+                                                <button type="submit" class="btn btn-sm btn-primary btn-icon rounded-pill">
+                                                    <span class="btn-inner--text">LOGIN</span>
+
+                                                    <div id="spinner" class="spinner-grow text-success d-none " role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+
+                                                </button>
+
+                                            </div>
+                                        }
+
+                                    </div>
+
+                                    <div class="card-footer d-flex px-md-5">
+
+                                        <div>
+                                            Not Registered?
+
+                                            <a href="@Url.Action("Student_REGISTER", "Home")" class="font-weight-bold">Create Student Account</a>
+
+                                        </div>
+
+                                        <div class="ml-auto">
+                                            <a target="" href="@Url.Action("Index", "Home")">
+                                                <img alt="" src="/images/newonlylogo.png" height="50" width="50" />
+                                            </a>
+                                        </div>
+
+                                    </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 order-lg-1 zindex-100 d-none d-lg-block ">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</body>
+
+<script>
+    $("#login-form").submit(function () {
+        $('#spinner').removeClass('d-none');
+    })
+</script>

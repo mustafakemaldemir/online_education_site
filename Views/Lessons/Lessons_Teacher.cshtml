@@ -1,15 +1,17 @@
 ﻿@model List<online_education_site.EntityFramework.Models.Lesson>
 
-<h1><b>Your Lessons</b></h1>
-
-
-<ul>
-    @foreach (var lesson in Model)
-    {
-        <li>
-            <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
-                @lesson.LessonClassId @lesson.LessonName
-            </a>
-        </li>
-    }
-</ul>
+<div class="row">
+    <div class="col-2 mx-2">
+        <h3 class="fw-bold mb-2">Branş Dersleri</h3>
+        <ul class="list-group">
+            @foreach (var lesson in Model)
+            {
+                <li class="list-group-item">
+                    <a href="@Url.Action("Lesson", "Lessons",new {id = lesson.LessonId})">
+                        @lesson.LessonClassId @lesson.LessonName
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
