@@ -1,6 +1,6 @@
 ﻿@model online_education_site.Models.StudentUpdateModel
 
-<h1><b>Student's Account Update Page</b></h1>
+<h1 style="background-color:dodgerblue"><b>Student's Account Update Page</b></h1>
 
 @using (@Html.BeginForm("Student_Update", "AfterLogin_Student", FormMethod.Post, new { @id = "update-form" }))
 {
@@ -52,7 +52,7 @@
         @Html.TextBoxFor(m => m.student_ClassID, new { @class = "form-control", id = "input-email" })
     *@
 
-    <label for="cnumber">Student's Class</label>
+    <label for="cnumber" style="background-color:dodgerblue">Student's Class</label>
 
     <select class="form-select" id="cnumber" name="student_ClassID">
 
